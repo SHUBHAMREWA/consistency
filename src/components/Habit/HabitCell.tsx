@@ -28,10 +28,10 @@ const HabitCell = memo(function HabitCell({
 
   const stateClass =
     state === 'done'
-      ? 'bg-green-500/20 border-green-500/40 hover:bg-green-500/30 text-green-500'
+      ? 'bg-emerald-500 hover:bg-emerald-600 text-white border-transparent shadow-sm'
       : state === 'skip'
-      ? 'bg-red-500/20 border-red-500/40 hover:bg-red-500/30 text-red-500'
-      : 'bg-transparent border-slate-200 dark:border-purple-800/50 hover:bg-slate-100 dark:hover:bg-purple-800/30 text-transparent';
+      ? 'bg-rose-500 hover:bg-rose-600 text-white border-transparent shadow-sm'
+      : 'bg-transparent border-slate-200 dark:border-purple-800/60 hover:bg-slate-100 dark:hover:bg-purple-800/40 text-transparent';
 
   const todayClass = isToday ? 'ring-2 ring-indigo-400 ring-offset-1 dark:ring-offset-[#1a0b2e]' : '';
   const futureClass = isFuture ? 'opacity-40 cursor-default' : '';
@@ -44,8 +44,8 @@ const HabitCell = memo(function HabitCell({
         aria-label={`${date}: ${state}`}
         type="button"
       >
-        {state === 'done' && <FaCheck size={12} />}
-        {state === 'skip' && <FaXmark size={12} />}
+        {state === 'done' && <FaCheck size={14} />}
+        {state === 'skip' && <FaXmark size={14} />}
       </button>
     </td>
   );
