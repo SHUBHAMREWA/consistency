@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Fab from '@mui/material/Fab';
 import Tooltip from '@mui/material/Tooltip';
 import Snackbar from '@mui/material/Snackbar';
@@ -19,16 +20,6 @@ import GraphGrid from '../Graph/GraphGrid';
 import MobileTabs from '../Mobile/MobileTabs';
 
 import type { Habit } from '../../types/habit';
-
-const muiTheme = createTheme({
-  typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-  },
-  palette: {
-    primary: { main: '#1e293b' },
-    secondary: { main: '#6366f1' },
-  },
-});
 
 function AppContent() {
   const { year, month, setYearMonth } = useMonth();
@@ -81,7 +72,7 @@ function AppContent() {
   );
 
   const habitPanel = (
-    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 min-h-[300px]">
+    <div className="bg-white dark:bg-[#1a0b2e] sm:rounded-2xl border-y sm:border border-slate-100 dark:border-purple-800/50 sm:shadow-sm p-1 sm:p-5 min-h-[300px]">
       {habitsLoading ? (
         <div className="flex items-center justify-center py-16">
           <div className="animate-spin rounded-full h-8 w-8 border-2 border-slate-200 border-t-indigo-500" />
@@ -111,14 +102,14 @@ function AppContent() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 dark:from-[#0f0518] dark:via-[#130722] dark:to-[#1a0b2e]">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-50 bg-white/80 dark:bg-[#0f0518]/80 backdrop-blur-md border-b border-slate-100 dark:border-purple-800/50 shadow-sm">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
           {/* Logo */}
           <div className="flex items-center gap-2 shrink-0">
             <span className="text-xl">🎯</span>
-            <span className="font-bold text-slate-800 text-sm sm:text-base hidden xs:block">
+            <span className="font-bold text-slate-800 dark:text-purple-100 text-sm sm:text-base hidden xs:block">
               HabitTrack
             </span>
           </div>
@@ -145,7 +136,7 @@ function AppContent() {
       </header>
 
       {/* Main content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 md:pb-10">
+      <main className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-2 sm:py-6 pb-24 md:pb-10">
         {/* Desktop: stacked layout — habits on top, graph below */}
         <div className="hidden md:flex flex-col gap-6">
           {habitPanel}
@@ -215,6 +206,26 @@ function AppContent() {
 }
 
 export default function AppLayout() {
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const muiTheme = useMemo(
+    () =>
+      createTheme({
+        typography: {
+          fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+        },
+        palette: {
+          mode: prefersDarkMode ? 'dark' : 'light',
+          primary: { main: prefersDarkMode ? '#c084fc' : '#1e293b' },
+          secondary: { main: '#6366f1' },
+          background: {
+            default: prefersDarkMode ? '#0f0518' : '#f8fafc',
+            paper: prefersDarkMode ? '#1a0b2e' : '#ffffff',
+          },
+        },
+      }),
+    [prefersDarkMode]
+  );
+
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline />

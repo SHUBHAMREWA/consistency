@@ -37,6 +37,7 @@ export default function MonthSelector({ year, month, onChange }: MonthSelectorPr
       <Typography
         variant="h6"
         component="span"
+        className="text-slate-800 dark:text-purple-100"
         sx={{
           fontWeight: 700,
           fontSize: { xs: '1rem', sm: '1.15rem' },

@@ -24,20 +24,20 @@ const HabitCell = memo(function HabitCell({
   }, [habitId, date, onToggle]);
 
   const baseClass =
-    'w-9 h-9 flex items-center justify-center rounded-lg cursor-pointer transition-all duration-150 select-none border';
+    'w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg cursor-pointer transition-all duration-150 select-none border';
 
   const stateClass =
     state === 'done'
       ? 'bg-green-500/20 border-green-500/40 hover:bg-green-500/30 text-green-500'
       : state === 'skip'
       ? 'bg-red-500/20 border-red-500/40 hover:bg-red-500/30 text-red-500'
-      : 'bg-transparent border-slate-200 hover:bg-slate-100 text-transparent';
+      : 'bg-transparent border-slate-200 dark:border-purple-800/50 hover:bg-slate-100 dark:hover:bg-purple-800/30 text-transparent';
 
-  const todayClass = isToday ? 'ring-2 ring-indigo-400 ring-offset-1' : '';
+  const todayClass = isToday ? 'ring-2 ring-indigo-400 ring-offset-1 dark:ring-offset-[#1a0b2e]' : '';
   const futureClass = isFuture ? 'opacity-40 cursor-default' : '';
 
   return (
-    <td className="p-0.5">
+    <td className="p-0 sm:p-0.5">
       <button
         className={`${baseClass} ${stateClass} ${todayClass} ${futureClass}`}
         onClick={isFuture ? undefined : handleClick}

@@ -19,21 +19,22 @@ export default function MobileTabs({ activeTab, onChange }: MobileTabsProps) {
         right: 0,
         zIndex: 100,
         display: { xs: 'block', md: 'none' },
-        borderTop: '1px solid #f1f5f9',
+        borderTop: 1,
+        borderColor: 'divider',
       }}
     >
       <BottomNavigation
         value={activeTab}
         onChange={(_, newValue) => onChange(newValue)}
-        sx={{ backgroundColor: '#ffffff', height: 64 }}
+        sx={{ bgcolor: 'background.paper', height: 64 }}
       >
         <BottomNavigationAction
           label="Habits"
           value="habits"
           icon={<FaTableCells size={20} />}
           sx={{
-            '&.Mui-selected': { color: '#1e293b' },
-            color: '#94a3b8',
+            '&.Mui-selected': { color: 'primary.main' },
+            color: 'text.secondary',
             fontSize: '0.7rem',
           }}
         />
@@ -42,8 +43,8 @@ export default function MobileTabs({ activeTab, onChange }: MobileTabsProps) {
           value="graph"
           icon={<FaChartLine size={20} />}
           sx={{
-            '&.Mui-selected': { color: '#6366f1' },
-            color: '#94a3b8',
+            '&.Mui-selected': { color: 'secondary.main' },
+            color: 'text.secondary',
             fontSize: '0.7rem',
           }}
         />

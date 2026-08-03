@@ -70,10 +70,10 @@ export default function HabitRow({
     <tr
       ref={setNodeRef}
       style={style}
-      className="group hover:bg-slate-50 transition-colors"
+      className="group hover:bg-slate-50 dark:hover:bg-[#2d1b4e]/50 transition-colors"
     >
       {/* Drag handle */}
-      <td className="w-8 px-1 text-slate-300 hover:text-slate-500 cursor-grab active:cursor-grabbing">
+      <td className="w-6 sm:w-8 px-0 sm:px-1 text-slate-300 dark:text-purple-600 hover:text-slate-500 dark:hover:text-purple-400 cursor-grab active:cursor-grabbing">
         <button
           className="flex items-center justify-center w-7 h-7 rounded touch-none"
           {...attributes}
@@ -86,8 +86,8 @@ export default function HabitRow({
       </td>
 
       {/* Habit name */}
-      <td className="sticky left-0 z-10 bg-white group-hover:bg-slate-50 transition-colors min-w-[140px] max-w-[180px] px-3 py-2 border-r border-slate-100">
-        <span className="block text-sm font-semibold text-slate-700 truncate">
+      <td className="sticky left-0 z-10 bg-white dark:bg-[#1a0b2e] group-hover:bg-slate-50 dark:group-hover:bg-[#201038] transition-colors min-w-[90px] sm:min-w-[140px] max-w-[110px] sm:max-w-[180px] px-2 sm:px-3 py-2 border-r border-slate-100 dark:border-purple-800/50">
+        <span className="block text-xs sm:text-sm font-semibold text-slate-700 dark:text-purple-200 truncate">
           {habit.title}
         </span>
       </td>

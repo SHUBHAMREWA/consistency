@@ -64,7 +64,7 @@ export default function HabitTable({
 
   if (habits.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-slate-400">
+      <div className="flex flex-col items-center justify-center py-20 text-slate-400 dark:text-purple-500">
         <div className="text-5xl mb-4">📋</div>
         <p className="text-lg font-medium mb-1">No habits yet</p>
         <p className="text-sm">Click the + button to add your first habit</p>
@@ -73,21 +73,21 @@ export default function HabitTable({
   }
 
   return (
-    <div className="overflow-x-auto w-full rounded-xl border border-slate-100 shadow-sm">
+    <div className="overflow-x-auto w-full rounded-none sm:rounded-xl border-y sm:border border-slate-100 dark:border-purple-800/50 shadow-sm bg-white dark:bg-[#1a0b2e]">
       <table className="border-collapse min-w-full text-sm">
         <thead>
-          <tr className="bg-slate-50 border-b border-slate-100">
+          <tr className="bg-slate-50 dark:bg-[#201038] border-b border-slate-100 dark:border-purple-800/50">
             {/* Drag handle col */}
-            <th className="w-8 px-1" />
+            <th className="w-6 sm:w-8 px-1" />
             {/* Habit name col */}
-            <th className="sticky left-0 z-20 bg-slate-50 px-3 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider border-r border-slate-100 min-w-[140px]">
+            <th className="sticky left-0 z-20 bg-slate-50 dark:bg-[#201038] px-2 sm:px-3 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-bold text-slate-500 dark:text-purple-300 uppercase tracking-wider border-r border-slate-100 dark:border-purple-800/50 min-w-[90px] sm:min-w-[140px]">
               Habit
             </th>
             {/* Day cols */}
             {days.map((day) => (
               <th
                 key={day}
-                className="px-0.5 py-3 text-center text-xs font-semibold text-slate-400 w-10"
+                className="px-0 sm:px-0.5 py-2 sm:py-3 text-center text-[10px] sm:text-xs font-semibold text-slate-400 dark:text-purple-400 w-8 sm:w-10"
               >
                 {day}
               </th>
@@ -107,7 +107,7 @@ export default function HabitTable({
             items={habits.map((h) => h.id!)}
             strategy={verticalListSortingStrategy}
           >
-            <tbody className="divide-y divide-slate-50">
+            <tbody className="divide-y divide-slate-50 dark:divide-purple-900/30">
               {habits.map((habit) => (
                 <HabitRow
                   key={habit.id}
