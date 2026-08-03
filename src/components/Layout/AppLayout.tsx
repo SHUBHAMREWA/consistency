@@ -1,12 +1,12 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Fab from '@mui/material/Fab';
+import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { FaPlus } from 'react-icons/fa6';
+import { FaPlus, FaMoon, FaSun } from 'react-icons/fa6';
 
 import { MonthProvider, useMonth } from '../../context/MonthContext';
 import { useHabit } from '../../hooks/useHabit';
@@ -21,7 +21,7 @@ import MobileTabs from '../Mobile/MobileTabs';
 
 import type { Habit } from '../../types/habit';
 
-function AppContent() {
+function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; toggleTheme: () => void }) {
   const { year, month, setYearMonth } = useMonth();
   const [addOpen, setAddOpen] = useState(false);
   const [editingHabit, setEditingHabit] = useState<Habit | null>(null);
@@ -117,8 +117,14 @@ function AppContent() {
           {/* Month selector */}
           <MonthSelector year={year} month={month} onChange={setYearMonth} />
 
-          {/* Add button (desktop) */}
-          <div className="hidden md:flex items-center gap-2">
+          {/* Controls */}
+          <div className="flex items-center gap-2">
+            <IconButton onClick={toggleTheme} sx={{ color: 'text.primary' }} aria-label="Toggle dark mode">
+              {themeMode === 'dark' ? <FaSun size={18} color="#c084fc" /> : <FaMoon size={18} />}
+            </IconButton>
+
+            {/* Add button (desktop) */}
+            <div className="hidden md:flex items-center gap-2">
             <Tooltip title={habits.length >= maxHabits ? `Max ${maxHabits} habits reached` : 'Add habit'}>
               <span>
                 <button
@@ -131,6 +137,7 @@ function AppContent() {
                 </button>
               </span>
             </Tooltip>
+            </div>
           </div>
         </div>
       </header>
@@ -206,7 +213,33 @@ function AppContent() {
 }
 
 export default function AppLayout() {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light');
+
+  useEffect(() => {
+    const isDark = document.documentElement.classList.contains('dark');
+    setThemeMode(isDark ? 'dark' : 'light');
+
+    const observer = new MutationObserver(() => {
+      const isDarkNow = document.documentElement.classList.contains('dark');
+      setThemeMode(isDarkNow ? 'dark' : 'light');
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
+
+  const toggleTheme = useCallback(() => {
+    setThemeMode((prev) => {
+      const nextTheme = prev === 'light' ? 'dark' : 'light';
+      if (nextTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      localStorage.setItem('theme', nextTheme);
+      return nextTheme;
+    });
+  }, []);
+
   const muiTheme = useMemo(
     () =>
       createTheme({
@@ -214,23 +247,23 @@ export default function AppLayout() {
           fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
         },
         palette: {
-          mode: prefersDarkMode ? 'dark' : 'light',
-          primary: { main: prefersDarkMode ? '#c084fc' : '#1e293b' },
+          mode: themeMode,
+          primary: { main: themeMode === 'dark' ? '#c084fc' : '#1e293b' },
           secondary: { main: '#6366f1' },
           background: {
-            default: prefersDarkMode ? '#0f0518' : '#f8fafc',
-            paper: prefersDarkMode ? '#1a0b2e' : '#ffffff',
+            default: themeMode === 'dark' ? '#0f0518' : '#f8fafc',
+            paper: themeMode === 'dark' ? '#1a0b2e' : '#ffffff',
           },
         },
       }),
-    [prefersDarkMode]
+    [themeMode]
   );
 
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline />
       <MonthProvider>
-        <AppContent />
+        <AppContent themeMode={themeMode} toggleTheme={toggleTheme} />
       </MonthProvider>
     </ThemeProvider>
   );
