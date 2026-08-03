@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react';
 import type { DailyScore } from '../../types/habit';
-import { formatMonthLabel } from '../../utils/date';
+import { formatMonthLabel, todayKey, formatDateKey } from '../../utils/date';
 
 const ScoreGraph = lazy(() => import('./ScoreGraph'));
 
@@ -12,8 +12,11 @@ interface GraphGridProps {
 }
 
 export default function GraphGrid({ dailyScores, year, month, habitCount }: GraphGridProps) {
-  const totalCompleted = dailyScores.reduce((sum, d) => sum + d.score, 0);
-  const maxPossible = dailyScores.reduce((sum, d) => sum + d.total, 0);
+  const today = todayKey();
+  const validScores = dailyScores.filter(d => formatDateKey(year, month, d.day) <= today);
+
+  const totalCompleted = validScores.reduce((sum, d) => sum + d.score, 0);
+  const maxPossible = validScores.reduce((sum, d) => sum + d.total, 0);
   const rate = maxPossible > 0 ? Math.round((totalCompleted / maxPossible) * 100) : 0;
 
   return (
