@@ -31,7 +31,7 @@ const HabitCell = memo(function HabitCell({
       ? 'bg-green-500/20 border-green-500/40 hover:bg-green-500/30 text-green-500'
       : state === 'skip'
       ? 'bg-red-500/20 border-red-500/40 hover:bg-red-500/30 text-red-500'
-      : 'bg-slate-50 border-slate-300 dark:bg-[#130722] dark:border-purple-500/60 hover:bg-slate-100 dark:hover:bg-purple-900/40 text-transparent';
+      : 'bg-slate-100 border-slate-400 dark:bg-[#251340] dark:border-purple-400 hover:bg-slate-200 dark:hover:bg-purple-800 text-transparent';
 
   const todayClass = isToday ? 'ring-2 ring-indigo-400 ring-offset-1 dark:ring-offset-[#1a0b2e]' : '';
   const futureClass = isFuture ? 'opacity-40 cursor-default' : '';
