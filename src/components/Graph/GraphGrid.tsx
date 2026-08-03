@@ -31,7 +31,7 @@ export default function GraphGrid({ dailyScores, year, month, habitCount }: Grap
       </div>
 
       {/* Stats row */}
-      <div className="flex gap-3 mb-5">
+      <div className="hidden md:flex gap-3 mb-5">
         <div className="flex-1 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-3 text-center border border-transparent dark:border-indigo-800/50">
           <p className="text-xl font-bold text-indigo-700 dark:text-indigo-300">{totalCompleted}</p>
           <p className="text-xs text-indigo-400 dark:text-indigo-400 mt-0.5">total ✔</p>
