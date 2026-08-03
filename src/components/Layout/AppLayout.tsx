@@ -17,7 +17,6 @@ import HabitTable from '../Habit/HabitTable';
 import AddHabitDialog from '../Habit/AddHabitDialog';
 import EditHabitDialog from '../Habit/EditHabitDialog';
 import GraphGrid from '../Graph/GraphGrid';
-import MobileTabs from '../Mobile/MobileTabs';
 
 import type { Habit } from '../../types/habit';
 
@@ -25,7 +24,6 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
   const { year, month, setYearMonth } = useMonth();
   const [addOpen, setAddOpen] = useState(false);
   const [editingHabit, setEditingHabit] = useState<Habit | null>(null);
-  const [mobileTab, setMobileTab] = useState<'habits' | 'graph'>('habits');
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
     open: false,
     message: '',
@@ -143,16 +141,10 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
       </header>
 
       {/* Main content */}
-      <main className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-2 sm:py-6 pb-24 md:pb-10">
-        {/* Desktop: stacked layout — habits on top, graph below */}
-        <div className="hidden md:flex flex-col gap-6">
+      <main className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-2 sm:py-6 pb-20 md:pb-10">
+        <div className="flex flex-col gap-6">
           {habitPanel}
           {graphPanel}
-        </div>
-
-        {/* Mobile: tabs */}
-        <div className="md:hidden">
-          {mobileTab === 'habits' ? habitPanel : graphPanel}
         </div>
       </main>
 
@@ -164,7 +156,7 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
         disabled={habits.length >= maxHabits}
         sx={{
           position: 'fixed',
-          bottom: 84,
+          bottom: 24,
           right: 20,
           display: { xs: 'flex', md: 'none' },
           backgroundColor: '#1e293b',
@@ -175,8 +167,6 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
         <FaPlus size={18} color="white" />
       </Fab>
 
-      {/* Mobile tabs */}
-      <MobileTabs activeTab={mobileTab} onChange={setMobileTab} />
 
       {/* Dialogs */}
       <AddHabitDialog
