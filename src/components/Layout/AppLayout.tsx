@@ -30,7 +30,7 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
     severity: 'success',
   });
 
-  const { habits, loading: habitsLoading, addHabit, renameHabit, deleteHabit, reorderHabits, maxHabits } =
+  const { habits, loading: habitsLoading, addHabit, renameHabit, deleteHabit, reorderHabits } =
     useHabit(year, month);
 
   const { getCellState, toggleLog, dailyScores } = useScore(habits, year, month);
@@ -123,12 +123,11 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
 
             {/* Add button (desktop) */}
             <div className="hidden md:flex items-center gap-2">
-            <Tooltip title={habits.length >= maxHabits ? `Max ${maxHabits} habits reached` : 'Add habit'}>
+            <Tooltip title="Add habit">
               <span>
                 <button
                   onClick={() => setAddOpen(true)}
-                  disabled={habits.length >= maxHabits}
-                  className="flex items-center gap-2 bg-slate-900 hover:bg-slate-700 disabled:bg-slate-300 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors"
+                  className="flex items-center gap-2 bg-slate-900 hover:bg-slate-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors"
                 >
                   <FaPlus size={12} />
                   Add Habit
@@ -153,7 +152,6 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
         color="primary"
         aria-label="Add habit"
         onClick={() => setAddOpen(true)}
-        disabled={habits.length >= maxHabits}
         sx={{
           position: 'fixed',
           bottom: 24,
@@ -161,7 +159,6 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
           display: { xs: 'flex', md: 'none' },
           backgroundColor: '#1e293b',
           '&:hover': { backgroundColor: '#334155' },
-          '&:disabled': { backgroundColor: '#cbd5e1' },
         }}
       >
         <FaPlus size={18} color="white" />
@@ -173,8 +170,6 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
         open={addOpen}
         onClose={() => setAddOpen(false)}
         onAdd={handleAdd}
-        currentCount={habits.length}
-        maxHabits={maxHabits}
       />
       <EditHabitDialog
         habit={editingHabit}

@@ -12,16 +12,12 @@ interface AddHabitDialogProps {
   open: boolean;
   onClose: () => void;
   onAdd: (title: string) => Promise<{ success: boolean; error?: string }>;
-  currentCount: number;
-  maxHabits: number;
 }
 
 export default function AddHabitDialog({
   open,
   onClose,
   onAdd,
-  currentCount,
-  maxHabits,
 }: AddHabitDialogProps) {
   const [title, setTitle] = useState('');
   const [error, setError] = useState('');
@@ -64,9 +60,6 @@ export default function AddHabitDialog({
         Add New Habit
       </DialogTitle>
       <DialogContent>
-        <p className="text-xs text-slate-400 mb-3">
-          {currentCount}/{maxHabits} habits used this month
-        </p>
         {error && (
           <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>
             {error}
