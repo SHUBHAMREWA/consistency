@@ -274,6 +274,25 @@ export default function NotificationSettingsDialog({
               </div>
             </div>
 
+            {/* Badge Icon Showcase */}
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-purple-50/70 dark:bg-purple-950/40 border border-purple-200/70 dark:border-purple-800/40">
+              <div className="w-9 h-9 rounded-xl bg-[#200e3d] flex items-center justify-center p-1.5 shadow-sm shrink-0 border border-purple-800/50">
+                <img
+                  src="/notification-badge.png"
+                  alt="HabitTrack Status Bar Badge"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="text-xs">
+                <p className="font-semibold text-slate-800 dark:text-purple-100">
+                  Official Status Bar Badge
+                </p>
+                <p className="text-slate-500 dark:text-purple-300 text-[11px] leading-tight">
+                  This custom emblem displays in your device's top status bar & lock screen so you instantly spot HabitTrack notifications.
+                </p>
+              </div>
+            </div>
+
             {/* Test button */}
             <div className="pt-2">
               <button

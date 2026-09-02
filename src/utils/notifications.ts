@@ -64,6 +64,31 @@ export function isNotificationSupported(): boolean {
   return typeof window !== 'undefined' && 'Notification' in window;
 }
 
+// Update app icon badge on mobile home screen and taskbar (PWA Badge API)
+export function updateAppBadge(count?: number) {
+  if (typeof navigator !== 'undefined' && 'setAppBadge' in navigator) {
+    try {
+      if (typeof count === 'number' && count > 0) {
+        (navigator as any).setAppBadge(count).catch(() => {});
+      } else {
+        (navigator as any).setAppBadge().catch(() => {});
+      }
+    } catch (_e) {
+      // Ignored
+    }
+  }
+}
+
+export function clearAppBadge() {
+  if (typeof navigator !== 'undefined' && 'clearAppBadge' in navigator) {
+    try {
+      (navigator as any).clearAppBadge().catch(() => {});
+    } catch (_e) {
+      // Ignored
+    }
+  }
+}
+
 // Check current permission state
 export function getNotificationPermission(): NotificationPermission | 'unsupported' {
   if (!isNotificationSupported()) return 'unsupported';
@@ -148,10 +173,13 @@ export async function sendHabitNotification(title: string, body: string): Promis
   const options: NotificationOptions & { renotify?: boolean } = {
     body,
     icon: '/logo4.webp',
-    badge: '/favicon-32x32.png',
+    badge: '/notification-badge.png',
     tag: 'habit-track-reminder',
     renotify: true,
   };
+
+  // Set PWA app icon badge indicator on home screen
+  updateAppBadge(1);
 
   // 1. Try Service Worker first (Required on Chrome for Android)
   if ('serviceWorker' in navigator) {
