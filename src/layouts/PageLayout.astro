@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 interface Props {
   title: string;
   description: string;
@@ -15,8 +17,10 @@ const currentPath = Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#1e293b" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="icon" type="image/png" href="/icon-192.png" />
-    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/webp" href="/logo4.webp" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -46,19 +50,19 @@ const currentPath = Astro.url.pathname;
       }
     </script>
   </head>
-  <body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 dark:bg-[#0f0518] dark:text-purple-100 transition-colors">
+  <body class="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 dark:from-[#0f0518] dark:via-[#130722] dark:to-[#1a0b2e] text-slate-800 dark:text-purple-100 transition-colors">
     <!-- Header -->
-    <header class="sticky top-0 z-50 bg-white/85 dark:bg-[#0f0518]/85 backdrop-blur-md border-b border-slate-100 dark:border-purple-800/50">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-2 font-bold text-lg text-slate-900 dark:text-purple-100 hover:opacity-90">
-          <span class="text-xl">🎯</span>
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-[#0f0518]/80 backdrop-blur-md border-b border-slate-100 dark:border-purple-800/50 shadow-sm">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 sm:h-18 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2.5 sm:gap-3 font-bold text-base sm:text-lg md:text-xl text-slate-900 dark:text-purple-100 hover:opacity-90 transition-opacity tracking-tight">
+          <img src="/logo4.webp" alt="HabitTrack Logo" class="h-9 sm:h-11 md:h-12 w-auto object-contain drop-shadow-sm" />
           <span>HabitTrack</span>
         </a>
 
         <div class="flex items-center gap-3">
           <a
             href="/"
-            class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-indigo-600 dark:text-purple-300 hover:text-indigo-700 dark:hover:text-purple-200 bg-indigo-50 dark:bg-purple-950/60 border border-indigo-100 dark:border-purple-800/60 px-3 py-1.5 rounded-lg transition-colors"
+            class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-white bg-slate-900 hover:bg-slate-700 dark:bg-purple-600 dark:hover:bg-purple-500 px-3.5 py-2 rounded-xl shadow-sm transition-colors"
           >
             <span>←</span>
             <span>Back to Tracker</span>
@@ -67,7 +71,7 @@ const currentPath = Astro.url.pathname;
             id="theme-toggle-btn"
             type="button"
             aria-label="Toggle theme"
-            class="p-2 rounded-lg text-slate-600 dark:text-purple-300 hover:bg-slate-100 dark:hover:bg-purple-900/50 transition-colors"
+            class="p-2 rounded-xl text-slate-600 dark:text-purple-300 hover:bg-slate-100 dark:hover:bg-purple-900/50 border border-slate-200/60 dark:border-purple-800/40 transition-colors"
           >
             <svg id="sun-icon" class="w-5 h-5 hidden dark:block text-purple-300" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
@@ -89,18 +93,18 @@ const currentPath = Astro.url.pathname;
     <footer class="mt-auto border-t border-slate-200/80 dark:border-purple-900/40 bg-white/70 dark:bg-[#120722]/80 backdrop-blur-sm py-8">
       <div class="max-w-5xl mx-auto px-4 sm:px-6">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <div class="flex items-center gap-2">
-            <span class="text-base">🎯</span>
-            <span class="font-bold text-sm text-slate-800 dark:text-purple-200">HabitTrack</span>
+          <div class="flex items-center gap-2.5 sm:gap-3">
+            <img src="/logo4.webp" alt="HabitTrack Logo" class="h-8 sm:h-9 w-auto object-contain" />
+            <span class="font-bold text-sm sm:text-base text-slate-800 dark:text-purple-200">HabitTrack</span>
             <span class="text-xs text-slate-400 dark:text-purple-400">· 100% Offline & Private</span>
           </div>
 
           <nav class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-slate-600 dark:text-purple-300">
             <a href="/" class="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">Tracker</a>
-            <a href="/about" class={currentPath === '/about' ? 'text-indigo-600 dark:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>About</a>
-            <a href="/how-to-use" class={currentPath === '/how-to-use' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>How to Use</a>
-            <a href="/privacy-policy" class={currentPath === '/privacy-policy' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>Privacy Policy</a>
-            <a href="/terms" class={currentPath === '/terms' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>Terms</a>
+            <a href="/about" class={currentPath === '/about' || currentPath === '/about/' ? 'text-indigo-600 dark:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>About</a>
+            <a href="/how-to-use" class={currentPath === '/how-to-use' || currentPath === '/how-to-use/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>How to Use</a>
+            <a href="/privacy-policy" class={currentPath === '/privacy-policy' || currentPath === '/privacy-policy/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>Privacy Policy</a>
+            <a href="/terms" class={currentPath === '/terms' || currentPath === '/terms/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>Terms & Conditions</a>
           </nav>
         </div>
 

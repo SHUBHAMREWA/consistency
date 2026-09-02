@@ -17,6 +17,7 @@ import {
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import type { Habit, CellState } from '../../types/habit';
 import HabitRow from './HabitRow';
+import { FaPlus, FaClockRotateLeft } from 'react-icons/fa6';
 import { getDaysInMonth } from '../../utils/date';
 
 interface HabitTableProps {
@@ -28,6 +29,8 @@ interface HabitTableProps {
   onRename: (habit: Habit) => void;
   onDelete: (habit: Habit) => void;
   onReorder: (reordered: Habit[]) => void;
+  onAddHabit?: () => void;
+  onImportPrevious?: () => void;
 }
 
 export default function HabitTable({
@@ -39,6 +42,8 @@ export default function HabitTable({
   onRename,
   onDelete,
   onReorder,
+  onAddHabit,
+  onImportPrevious,
 }: HabitTableProps) {
   const days = useMemo(
     () => Array.from({ length: getDaysInMonth(year, month) }, (_, i) => i + 1),
@@ -64,10 +69,36 @@ export default function HabitTable({
 
   if (habits.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-slate-400 dark:text-purple-500">
+      <div className="flex flex-col items-center justify-center py-20 px-4 text-center text-slate-400 dark:text-purple-500">
         <div className="text-5xl mb-4">📋</div>
-        <p className="text-lg font-medium mb-1">No habits yet</p>
-        <p className="text-sm">Click the + button to add your first habit</p>
+        <p className="text-lg font-medium text-slate-700 dark:text-purple-200 mb-1">
+          No habits for this month yet
+        </p>
+        <p className="text-sm text-slate-400 dark:text-purple-400 max-w-sm mb-6">
+          Start fresh by adding a new habit, or quickly bring over your habits from the previous month.
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          {onAddHabit && (
+            <button
+              type="button"
+              onClick={onAddHabit}
+              className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-sm transition-colors cursor-pointer"
+            >
+              <FaPlus size={12} />
+              <span>Add New Habit</span>
+            </button>
+          )}
+          {onImportPrevious && (
+            <button
+              type="button"
+              onClick={onImportPrevious}
+              className="inline-flex items-center gap-2 bg-white dark:bg-purple-950/60 hover:bg-slate-100 dark:hover:bg-purple-900/60 text-slate-700 dark:text-purple-200 text-sm font-semibold px-4 py-2.5 rounded-xl border border-slate-200 dark:border-purple-800/60 shadow-sm transition-colors cursor-pointer"
+            >
+              <FaClockRotateLeft size={13} className="text-indigo-600 dark:text-purple-300" />
+              <span>Import from Last Month</span>
+            </button>
+          )}
+        </div>
       </div>
     );
   }

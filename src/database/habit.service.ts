@@ -22,6 +22,18 @@ export const habitService = {
     return db.habits.add({ year, month, title, position });
   },
 
+  async addHabits(year: number, month: number, titles: string[]): Promise<number[]> {
+    const existing = await habitService.getHabitsForMonth(year, month);
+    let startPosition = existing.length;
+    const records = titles.map((title, idx) => ({
+      year,
+      month,
+      title: title.trim(),
+      position: startPosition + idx,
+    }));
+    return db.habits.bulkAdd(records, { allKeys: true });
+  },
+
   async renameHabit(id: number, title: string): Promise<void> {
     await db.habits.update(id, { title });
   },

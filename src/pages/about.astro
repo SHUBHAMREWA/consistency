@@ -4,79 +4,119 @@ import PageLayout from '../layouts/PageLayout.astro';
 
 <PageLayout
   title="About"
-  description="Learn more about HabitTrack — a fast, free, privacy-first monthly habit tracker built with zero tracking and offline-first IndexedDB storage."
+  description="Learn about HabitTrack — a fast, private, offline-first monthly habit tracker built with zero cloud dependencies and client-side IndexedDB storage."
 >
-  <article class="prose prose-slate dark:prose-invert max-w-none">
-    <div class="mb-10 text-center sm:text-left border-b border-slate-200 dark:border-purple-900/50 pb-8">
-      <span class="inline-block text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-purple-400 bg-indigo-50 dark:bg-purple-950/60 px-3 py-1 rounded-full border border-indigo-100 dark:border-purple-800/60 mb-3">
-        Our Philosophy
-      </span>
-      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-purple-50">
+  <div class="space-y-8">
+    <!-- Hero Card -->
+    <div class="bg-white dark:bg-[#1a0b2e] rounded-2xl border border-slate-200/80 dark:border-purple-800/50 p-6 sm:p-10 shadow-sm">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-purple-950/60 text-indigo-700 dark:text-purple-300 border border-indigo-100 dark:border-purple-800/60 mb-4">
+        <span>🎯</span>
+        <span>Minimalist & Focused</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-purple-50 tracking-tight">
         About HabitTrack
       </h1>
-      <p class="mt-3 text-base sm:text-lg text-slate-600 dark:text-purple-200/80 leading-relaxed">
-        A minimalist, distraction-free monthly habit tracker designed to build consistency without complexity.
+      <p class="mt-3 text-base sm:text-lg text-slate-600 dark:text-purple-200/80 leading-relaxed max-w-3xl">
+        HabitTrack was created with one simple conviction: building daily consistency shouldn't require complex signups, monthly subscriptions, cloud syncing delays, or intrusive notifications.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-10 not-prose">
-      <div class="bg-white dark:bg-[#1a0b2e] border border-slate-200/80 dark:border-purple-800/50 p-6 rounded-2xl shadow-sm">
-        <div class="text-2xl mb-2">🔒</div>
-        <h3 class="text-base font-bold text-slate-800 dark:text-purple-100 mb-1">100% Private</h3>
-        <p class="text-sm text-slate-600 dark:text-purple-300">
-          No sign-ups, no logins, and zero cloud databases. All your data stays strictly in your browser.
+    <!-- Core Pillars Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white dark:bg-[#1a0b2e] border border-slate-200/80 dark:border-purple-800/50 p-6 rounded-2xl shadow-sm hover:border-indigo-200 dark:hover:border-purple-700/60 transition-colors">
+        <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-purple-950/80 text-indigo-600 dark:text-purple-400 flex items-center justify-center text-2xl mb-4">
+          🔒
+        </div>
+        <h2 class="text-lg font-bold text-slate-900 dark:text-purple-100 mb-2">100% Client-Side Privacy</h2>
+        <p class="text-sm text-slate-600 dark:text-purple-300/90 leading-relaxed">
+          No sign-ups, no cookies, no tracking telemetry, and no remote servers. All your daily habits stay strictly on your device inside your browser's IndexedDB.
         </p>
       </div>
 
-      <div class="bg-white dark:bg-[#1a0b2e] border border-slate-200/80 dark:border-purple-800/50 p-6 rounded-2xl shadow-sm">
-        <div class="text-2xl mb-2">⚡</div>
-        <h3 class="text-base font-bold text-slate-800 dark:text-purple-100 mb-1">Blazing Fast</h3>
-        <p class="text-sm text-slate-600 dark:text-purple-300">
-          Built with Astro and local IndexedDB. Zero network requests, instant taps, and zero latency.
+      <div class="bg-white dark:bg-[#1a0b2e] border border-slate-200/80 dark:border-purple-800/50 p-6 rounded-2xl shadow-sm hover:border-indigo-200 dark:hover:border-purple-700/60 transition-colors">
+        <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-purple-950/80 text-indigo-600 dark:text-purple-400 flex items-center justify-center text-2xl mb-4">
+          ⚡
+        </div>
+        <h2 class="text-lg font-bold text-slate-900 dark:text-purple-100 mb-2">Instantaneous Speed</h2>
+        <p class="text-sm text-slate-600 dark:text-purple-300/90 leading-relaxed">
+          Built using lightweight Astro and Dexie.js. Zero network round-trips mean marking a habit or toggling a month takes 0 milliseconds with immediate tactile feedback.
         </p>
       </div>
 
-      <div class="bg-white dark:bg-[#1a0b2e] border border-slate-200/80 dark:border-purple-800/50 p-6 rounded-2xl shadow-sm">
-        <div class="text-2xl mb-2">📶</div>
-        <h3 class="text-base font-bold text-slate-800 dark:text-purple-100 mb-1">Works Offline</h3>
-        <p class="text-sm text-slate-600 dark:text-purple-300">
-          Installable as a PWA on iOS, Android, macOS, and Windows. Check off habits without an internet connection.
+      <div class="bg-white dark:bg-[#1a0b2e] border border-slate-200/80 dark:border-purple-800/50 p-6 rounded-2xl shadow-sm hover:border-indigo-200 dark:hover:border-purple-700/60 transition-colors">
+        <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-purple-950/80 text-indigo-600 dark:text-purple-400 flex items-center justify-center text-2xl mb-4">
+          📶
+        </div>
+        <h2 class="text-lg font-bold text-slate-900 dark:text-purple-100 mb-2">Offline Ready PWA</h2>
+        <p class="text-sm text-slate-600 dark:text-purple-300/90 leading-relaxed">
+          Install it directly to your home screen on iOS, Android, macOS, or Windows. Works seamlessly whether you are on an airplane, subway, or off the grid.
         </p>
       </div>
     </div>
 
-    <section class="space-y-6 text-slate-700 dark:text-purple-100/90 leading-relaxed">
-      <h2 class="text-2xl font-bold text-slate-900 dark:text-purple-100">Why Monthly Habit Tracking?</h2>
-      <p>
-        Most habit trackers push endless, fragile streak counters. Miss one day, and your 100-day streak resets to zero, causing demoralization and abandonment.
-      </p>
-      <p>
-        <strong>HabitTrack is built on monthly cycles.</strong> Each month gives you a fresh visual canvas to target progress, observe daily consistency, and review your daily completion score over 28 to 31 days. Even if life gets busy for a few days, your month is still actionable and forgiving.
-      </p>
+    <!-- Main Philosophy Section -->
+    <div class="bg-white dark:bg-[#1a0b2e] rounded-2xl border border-slate-200/80 dark:border-purple-800/50 p-6 sm:p-8 shadow-sm space-y-6">
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-purple-100">
+          The Monthly Grid Advantage
+        </h2>
+        <p class="mt-3 text-slate-600 dark:text-purple-200/85 leading-relaxed">
+          Traditional streak-based habit apps are notoriously fragile. Missing a single day resets a 60-day counter back to zero, creating unnecessary guilt and motivating users to give up entirely.
+        </p>
+        <p class="mt-3 text-slate-600 dark:text-purple-200/85 leading-relaxed">
+          HabitTrack treats every month as a fresh canvas of 28 to 31 days. You get to visualize your consistency across the month at a glance, celebrate real momentum, and recover gracefully from missed days without arbitrary penalties.
+        </p>
+      </div>
 
-      <h2 class="text-2xl font-bold text-slate-900 dark:text-purple-100 mt-8">Technical Architecture</h2>
-      <p>
-        HabitTrack uses modern, lightweight web technologies designed for longevity and speed:
-      </p>
-      <ul class="list-disc pl-6 space-y-2">
-        <li><strong>Astro.js:</strong> Static site shell ensuring maximum SEO performance, minimal bundle sizes, and immediate page loads.</li>
-        <li><strong>IndexedDB via Dexie.js:</strong> Fast, transactional storage directly in the user's browser with structured normalized tables.</li>
-        <li><strong>Tailwind CSS:</strong> Highly optimized utility styling with full light and dark purple color schemes.</li>
-        <li><strong>PWA Service Worker:</strong> Service worker caching assets for resilient offline access on any device.</li>
-      </ul>
+      <div class="pt-6 border-t border-slate-100 dark:border-purple-900/40">
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-purple-100">
+          Under the Hood
+        </h2>
+        <p class="mt-3 text-slate-600 dark:text-purple-200/85 leading-relaxed">
+          We believe in software that respects your hardware, battery life, and privacy:
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#201038] border border-slate-200/60 dark:border-purple-800/40">
+            <h3 class="font-bold text-sm text-slate-900 dark:text-purple-100">Astro.js Static Engine</h3>
+            <p class="text-xs text-slate-500 dark:text-purple-300/80 mt-1">
+              Guarantees minimal DOM size, instant page generation, and top-tier SEO scores.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#201038] border border-slate-200/60 dark:border-purple-800/40">
+            <h3 class="font-bold text-sm text-slate-900 dark:text-purple-100">IndexedDB via Dexie</h3>
+            <p class="text-xs text-slate-500 dark:text-purple-300/80 mt-1">
+              High-performance transactional local database storing separate normalized habit and day-log records.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#201038] border border-slate-200/60 dark:border-purple-800/40">
+            <h3 class="font-bold text-sm text-slate-900 dark:text-purple-100">Tailwind CSS v4</h3>
+            <p class="text-xs text-slate-500 dark:text-purple-300/80 mt-1">
+              Zero runtime CSS overhead, styled with custom light and dark purple colorways.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#201038] border border-slate-200/60 dark:border-purple-800/40">
+            <h3 class="font-bold text-sm text-slate-900 dark:text-purple-100">Recharts Visualization</h3>
+            <p class="text-xs text-slate-500 dark:text-purple-300/80 mt-1">
+              Smooth, touch-friendly area charts plotting your daily scores with zero lag.
+            </p>
+          </div>
+        </div>
+      </div>
 
-      <div class="mt-10 p-6 rounded-2xl bg-indigo-50 dark:bg-purple-950/40 border border-indigo-100 dark:border-purple-800/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <!-- CTA -->
+      <div class="pt-6 border-t border-slate-100 dark:border-purple-900/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-indigo-50/50 dark:bg-purple-950/30 -mx-6 -mb-6 sm:-mx-8 sm:-mb-8 p-6 sm:p-8 rounded-b-2xl">
         <div>
-          <h3 class="text-base font-bold text-indigo-950 dark:text-purple-100">Ready to start tracking?</h3>
-          <p class="text-sm text-indigo-700 dark:text-purple-300 mt-0.5">Jump right into your monthly board. No account required.</p>
+          <h3 class="font-bold text-base text-slate-900 dark:text-purple-100">Ready to build your consistency?</h3>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-purple-300 mt-0.5">Jump straight into this month's tracker. No registration needed.</p>
         </div>
         <a
           href="/"
-          class="inline-flex items-center justify-center whitespace-nowrap bg-indigo-600 hover:bg-indigo-700 dark:bg-purple-600 dark:hover:bg-purple-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-sm transition-colors"
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-700 dark:bg-purple-600 dark:hover:bg-purple-500 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-sm transition-colors"
         >
-          Open Habit Tracker →
+          <span>Open Tracker</span>
+          <span>→</span>
         </a>
       </div>
-    </section>
-  </article>
+    </div>
+  </div>
 </PageLayout>

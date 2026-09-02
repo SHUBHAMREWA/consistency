@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { FaPlus, FaMoon, FaSun } from 'react-icons/fa6';
+import { FaPlus, FaMoon, FaSun, FaClockRotateLeft } from 'react-icons/fa6';
 
 import { MonthProvider, useMonth } from '../../context/MonthContext';
 import { useHabit } from '../../hooks/useHabit';
@@ -16,6 +16,7 @@ import MonthSelector from '../Month/MonthSelector';
 import HabitTable from '../Habit/HabitTable';
 import AddHabitDialog from '../Habit/AddHabitDialog';
 import EditHabitDialog from '../Habit/EditHabitDialog';
+import ImportHabitsDialog from '../Habit/ImportHabitsDialog';
 import GraphGrid from '../Graph/GraphGrid';
 
 import type { Habit } from '../../types/habit';
@@ -23,6 +24,7 @@ import type { Habit } from '../../types/habit';
 function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; toggleTheme: () => void }) {
   const { year, month, setYearMonth } = useMonth();
   const [addOpen, setAddOpen] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
   const [editingHabit, setEditingHabit] = useState<Habit | null>(null);
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
     open: false,
@@ -30,7 +32,7 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
     severity: 'success',
   });
 
-  const { habits, loading: habitsLoading, addHabit, renameHabit, deleteHabit, reorderHabits } =
+  const { habits, loading: habitsLoading, addHabit, addHabits, renameHabit, deleteHabit, reorderHabits } =
     useHabit(year, month);
 
   const { getCellState, toggleLog, dailyScores } = useScore(habits, year, month);
@@ -51,6 +53,22 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
       return result;
     },
     [addHabit]
+  );
+
+  const handleImportHabits = useCallback(
+    async (titles: string[]) => {
+      const result = await addHabits(titles);
+      if (result.success) {
+        setSnackbar({
+          open: true,
+          message: `Imported ${result.count} habit${result.count > 1 ? 's' : ''}!`,
+          severity: 'success',
+        });
+      } else if (result.error) {
+        setSnackbar({ open: true, message: result.error, severity: 'error' });
+      }
+    },
+    [addHabits]
   );
 
   const handleRename = useCallback(
@@ -85,6 +103,8 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
           onRename={(h) => setEditingHabit(h)}
           onDelete={handleDelete}
           onReorder={reorderHabits}
+          onAddHabit={() => setAddOpen(true)}
+          onImportPrevious={() => setImportOpen(true)}
         />
       )}
     </div>
@@ -103,14 +123,14 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 dark:from-[#0f0518] dark:via-[#130722] dark:to-[#1a0b2e]">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/80 dark:bg-[#0f0518]/80 backdrop-blur-md border-b border-slate-100 dark:border-purple-800/50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-2 sm:gap-4">
           {/* Logo */}
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="text-xl">🎯</span>
-            <span className="font-bold text-slate-800 dark:text-purple-100 text-sm sm:text-base hidden xs:block">
+          <a href="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0 hover:opacity-90 transition-opacity">
+            <img src="/logo4.webp" alt="HabitTrack Logo" className="h-9 sm:h-11 md:h-12 w-auto object-contain drop-shadow-sm" />
+            <span className="font-bold text-slate-800 dark:text-purple-100 text-base sm:text-lg md:text-xl tracking-tight hidden xs:block">
               HabitTrack
             </span>
-          </div>
+          </a>
 
           {/* Month selector */}
           <MonthSelector year={year} month={month} onChange={setYearMonth} />
@@ -121,19 +141,50 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
               {themeMode === 'dark' ? <FaSun size={18} color="#c084fc" /> : <FaMoon size={18} />}
             </IconButton>
 
+            {/* Import button (mobile icon) */}
+            <div className="flex md:hidden items-center">
+              <Tooltip title="Import from previous month">
+                <IconButton
+                  onClick={() => setImportOpen(true)}
+                  sx={{ color: 'text.primary' }}
+                  aria-label="Import habits from previous month"
+                  size="small"
+                >
+                  <FaClockRotateLeft size={16} />
+                </IconButton>
+              </Tooltip>
+            </div>
+
+            {/* Import button (desktop) */}
+            <div className="hidden md:flex items-center gap-2">
+              <Tooltip title="Import habits from previous month">
+                <span>
+                  <button
+                    type="button"
+                    onClick={() => setImportOpen(true)}
+                    className="flex items-center gap-2 bg-white dark:bg-purple-950/60 hover:bg-slate-100 dark:hover:bg-purple-900/60 text-slate-700 dark:text-purple-200 text-sm font-semibold px-3.5 py-2 rounded-xl border border-slate-200 dark:border-purple-800/60 shadow-sm transition-colors cursor-pointer"
+                  >
+                    <FaClockRotateLeft size={13} className="text-indigo-600 dark:text-purple-300" />
+                    <span>Import Previous</span>
+                  </button>
+                </span>
+              </Tooltip>
+            </div>
+
             {/* Add button (desktop) */}
             <div className="hidden md:flex items-center gap-2">
-            <Tooltip title="Add habit">
-              <span>
-                <button
-                  onClick={() => setAddOpen(true)}
-                  className="flex items-center gap-2 bg-slate-900 hover:bg-slate-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors"
-                >
-                  <FaPlus size={12} />
-                  Add Habit
-                </button>
-              </span>
-            </Tooltip>
+              <Tooltip title="Add habit">
+                <span>
+                  <button
+                    type="button"
+                    onClick={() => setAddOpen(true)}
+                    className="flex items-center gap-2 bg-slate-900 hover:bg-slate-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors cursor-pointer"
+                  >
+                    <FaPlus size={12} />
+                    Add Habit
+                  </button>
+                </span>
+              </Tooltip>
             </div>
           </div>
         </div>
@@ -151,9 +202,9 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
       <footer className="mt-auto border-t border-slate-200/80 dark:border-purple-900/40 bg-white/70 dark:bg-[#120722]/80 backdrop-blur-sm py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-            <div className="flex items-center gap-2">
-              <span className="text-base">🎯</span>
-              <span className="font-bold text-sm text-slate-800 dark:text-purple-200">HabitTrack</span>
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              <img src="/logo4.webp" alt="HabitTrack Logo" className="h-8 sm:h-9 w-auto object-contain" />
+              <span className="font-bold text-sm sm:text-base text-slate-800 dark:text-purple-200">HabitTrack</span>
               <span className="text-xs text-slate-400 dark:text-purple-400">· 100% Offline & Private</span>
             </div>
 
@@ -199,6 +250,14 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
         habit={editingHabit}
         onClose={() => setEditingHabit(null)}
         onRename={handleRename}
+      />
+      <ImportHabitsDialog
+        open={importOpen}
+        onClose={() => setImportOpen(false)}
+        year={year}
+        month={month}
+        currentHabits={habits}
+        onImport={handleImportHabits}
       />
 
       {/* Snackbar feedback */}

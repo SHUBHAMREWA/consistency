@@ -29,6 +29,19 @@ export function useHabit(year: number, month: number) {
     [year, month, load]
   );
 
+  const addHabits = useCallback(
+    async (titles: string[]): Promise<{ success: boolean; count: number; error?: string }> => {
+      const validTitles = titles.map((t) => t.trim()).filter(Boolean);
+      if (validTitles.length === 0) {
+        return { success: false, count: 0, error: 'No habits selected.' };
+      }
+      await habitService.addHabits(year, month, validTitles);
+      await load();
+      return { success: true, count: validTitles.length };
+    },
+    [year, month, load]
+  );
+
   const renameHabit = useCallback(
     async (id: number, title: string) => {
       await habitService.renameHabit(id, title);
@@ -53,5 +66,5 @@ export function useHabit(year: number, month: number) {
     []
   );
 
-  return { habits, loading, addHabit, renameHabit, deleteHabit, reorderHabits };
+  return { habits, loading, addHabit, addHabits, renameHabit, deleteHabit, reorderHabits };
 }

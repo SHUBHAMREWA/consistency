@@ -4,68 +4,64 @@ import PageLayout from '../layouts/PageLayout.astro';
 
 <PageLayout
   title="Terms & Conditions"
-  description="Terms and Conditions of HabitTrack — free, client-side, local-first habit tracking application."
+  description="Terms and Conditions of HabitTrack — free, client-side, local-first monthly habit tracking application."
 >
-  <article class="max-w-none">
-    <div class="mb-10 text-center sm:text-left border-b border-slate-200 dark:border-purple-900/50 pb-8">
-      <span class="inline-block text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-purple-400 bg-indigo-50 dark:bg-purple-950/60 px-3 py-1 rounded-full border border-indigo-100 dark:border-purple-800/60 mb-3">
-        Legal
-      </span>
-      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-purple-50">
+  <div class="space-y-8">
+    <!-- Hero Card -->
+    <div class="bg-white dark:bg-[#1a0b2e] rounded-2xl border border-slate-200/80 dark:border-purple-800/50 p-6 sm:p-10 shadow-sm">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-purple-950/60 text-indigo-700 dark:text-purple-300 border border-indigo-100 dark:border-purple-800/60 mb-4">
+        <span>📜</span>
+        <span>Legal Terms</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-purple-50 tracking-tight">
         Terms & Conditions
       </h1>
-      <p class="mt-3 text-base sm:text-lg text-slate-600 dark:text-purple-200/80 leading-relaxed">
-        Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+      <p class="mt-3 text-sm sm:text-base text-slate-500 dark:text-purple-300/80">
+        Last modified: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
       </p>
     </div>
 
-    <div class="space-y-8 text-slate-700 dark:text-purple-100/90 leading-relaxed">
+    <!-- Content Card -->
+    <div class="bg-white dark:bg-[#1a0b2e] rounded-2xl border border-slate-200/80 dark:border-purple-800/50 p-6 sm:p-8 shadow-sm space-y-8 text-slate-700 dark:text-purple-100/90 leading-relaxed">
       <section class="space-y-3">
-        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-purple-100">1. Acceptance of Terms</h2>
-        <p>
-          By accessing or using the HabitTrack web application ("the Application"), you agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use the Application.
+        <h2 class="text-xl font-bold text-slate-900 dark:text-purple-100">1. Acceptance of Terms</h2>
+        <p class="text-slate-600 dark:text-purple-200/85 leading-relaxed text-sm sm:text-base">
+          By accessing, using, or installing the HabitTrack web application ("the Application"), you agree to abide by these Terms & Conditions. If you do not accept these terms, you should discontinue using the Application.
         </p>
       </section>
 
-      <section class="space-y-3">
-        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-purple-100">2. Use License</h2>
-        <p>
-          HabitTrack is provided to you free of charge for personal, non-commercial, and self-improvement purposes. You may access the Application via standard web browsers and install it as a Progressive Web App (PWA).
+      <section class="space-y-3 pt-6 border-t border-slate-100 dark:border-purple-900/40">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-purple-100">2. Free Personal License</h2>
+        <p class="text-slate-600 dark:text-purple-200/85 leading-relaxed text-sm sm:text-base">
+          HabitTrack is granted to you free of charge for personal self-improvement, productivity tracking, and organizational purposes. You may use the web app online or install it offline as a Progressive Web App (PWA).
         </p>
       </section>
 
-      <section class="space-y-3">
-        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-purple-100">3. Local Data Responsibility</h2>
-        <p>
-          Because HabitTrack is an offline-first, client-only application, all habit information and records are stored exclusively within your browser's IndexedDB storage.
+      <section class="space-y-3 pt-6 border-t border-slate-100 dark:border-purple-900/40">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-purple-100">3. Local Data Responsibility</h2>
+        <p class="text-slate-600 dark:text-purple-200/85 leading-relaxed text-sm sm:text-base">
+          Because HabitTrack operates exclusively offline without remote cloud servers, all your records are saved inside your device's browser IndexedDB.
         </p>
-        <ul class="list-disc pl-6 space-y-1 text-sm sm:text-base">
-          <li>We do not maintain server-side backups of your habits or logs.</li>
-          <li>Clearing browser storage, uninstalling browser instances, or operating in private browsing modes may permanently erase your stored records.</li>
-          <li>You are solely responsible for safeguarding and managing your local device environment.</li>
+        <ul class="list-disc pl-6 space-y-1.5 text-sm sm:text-base text-slate-600 dark:text-purple-300/90">
+          <li>We do not possess or maintain backups of your habits or logs.</li>
+          <li>Clearing browser storage or browsing in private/incognito mode will erase or fail to persist your logs.</li>
+          <li>You are solely responsible for managing your device storage and browser data.</li>
         </ul>
       </section>
 
-      <section class="space-y-3">
-        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-purple-100">4. Disclaimer of Warranties</h2>
-        <p>
-          The Application is provided on an <strong>"AS IS"</strong> and <strong>"AS AVAILABLE"</strong> basis without warranties of any kind, whether express or implied. We do not warrant that the Application will be error-free, uninterrupted, or compatible with every browser configuration or operating system.
+      <section class="space-y-3 pt-6 border-t border-slate-100 dark:border-purple-900/40">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-purple-100">4. Disclaimer of Warranties</h2>
+        <p class="text-slate-600 dark:text-purple-200/85 leading-relaxed text-sm sm:text-base">
+          The Application is provided on an "AS IS" and "AS AVAILABLE" basis without warranties of any kind. We make no guarantees that the application will be uninterrupted, error-free, or compatible with every browser version or operating system.
         </p>
       </section>
 
-      <section class="space-y-3">
-        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-purple-100">5. Limitation of Liability</h2>
-        <p>
-          In no event shall the creators, maintainers, or contributors of HabitTrack be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of data, personal time, or productivity resulting from your use of or inability to use the Application.
-        </p>
-      </section>
-
-      <section class="space-y-3">
-        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-purple-100">6. Modifications to Terms</h2>
-        <p>
-          We reserve the right to revise or modify these Terms & Conditions at any time. Any changes become effective immediately upon posting to this URL.
+      <section class="space-y-3 pt-6 border-t border-slate-100 dark:border-purple-900/40">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-purple-100">5. Limitation of Liability</h2>
+        <p class="text-slate-600 dark:text-purple-200/85 leading-relaxed text-sm sm:text-base">
+          In no event shall the authors or maintainers of HabitTrack be liable for any indirect, incidental, or consequential damages resulting from the use of or inability to use this software.
         </p>
       </section>
     </div>
-  </article>
+  </div>
 </PageLayout>
