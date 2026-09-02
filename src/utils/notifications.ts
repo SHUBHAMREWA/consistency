@@ -145,6 +145,48 @@ export interface NotificationResult {
   error?: string;
 }
 
+// Ensure Service Worker is registered and ready
+export async function getOrRegisterServiceWorker(): Promise<ServiceWorkerRegistration | null> {
+  if (typeof window === 'undefined' || !('serviceWorker' in navigator)) {
+    return null;
+  }
+
+  try {
+    // 1. If serviceWorker is already ready, use it immediately
+    const readyReg = await Promise.race([
+      navigator.serviceWorker.ready,
+      new Promise<null>((resolve) => setTimeout(() => resolve(null), 1500)),
+    ]);
+    if (readyReg) {
+      return readyReg;
+    }
+
+    // 2. Check getRegistration
+    const existing = await navigator.serviceWorker.getRegistration();
+    if (existing) {
+      return existing;
+    }
+
+    // 3. Register explicitly if not registered
+    const reg = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+
+    // Wait for ready
+    const activated = await Promise.race([
+      navigator.serviceWorker.ready,
+      new Promise<ServiceWorkerRegistration>((resolve) => setTimeout(() => resolve(reg), 2000)),
+    ]);
+
+    return activated || reg;
+  } catch (err) {
+    console.warn('Service worker registration attempt:', err);
+    try {
+      return (await navigator.serviceWorker.getRegistration()) || null;
+    } catch {
+      return null;
+    }
+  }
+}
+
 // Send a notification immediately
 export async function sendHabitNotification(title: string, body: string): Promise<NotificationResult> {
   // Always play gentle chime
@@ -181,44 +223,38 @@ export async function sendHabitNotification(title: string, body: string): Promis
   // Set PWA app icon badge indicator on home screen
   updateAppBadge(1);
 
-  // 1. Try Service Worker first (Required on Chrome for Android)
+  // 1. Primary path: Service Worker Registration showNotification
+  // (REQUIRED on Chrome for Android, where `new Notification()` is an Illegal constructor!)
   if ('serviceWorker' in navigator) {
     try {
-      // Check ready or registration
-      const reg = await Promise.race([
-        navigator.serviceWorker.ready,
-        new Promise<null>((resolve) => setTimeout(() => resolve(null), 1000)),
-      ]);
-
-      if (reg && reg.showNotification) {
-        await reg.showNotification(title, options);
+      const swReg = await getOrRegisterServiceWorker();
+      if (swReg && typeof swReg.showNotification === 'function') {
+        await swReg.showNotification(title, options);
         return { success: true, quote: body, method: 'service_worker' };
       }
-
-      // If ready didn't resolve, try getRegistration
-      const fallbackReg = await navigator.serviceWorker.getRegistration();
-      if (fallbackReg && fallbackReg.showNotification) {
-        await fallbackReg.showNotification(title, options);
-        return { success: true, quote: body, method: 'service_worker' };
-      }
-    } catch (_swErr) {
-      // Continue to native fallback
+    } catch (swErr) {
+      console.warn('SW showNotification error:', swErr);
     }
   }
 
-  // 2. Try Standard Notification API
-  try {
-    new Notification(title, options);
-    return { success: true, quote: body, method: 'native' };
-  } catch (err: unknown) {
-    const errorMsg = err instanceof Error ? err.message : String(err);
-    return {
-      success: false,
-      quote: body,
-      method: 'in_app',
-      error: errorMsg,
-    };
+  // 2. Secondary fallback: Native Notification constructor (Desktop only)
+  // Check if browser allows new Notification() - Android Chrome strictly forbids it!
+  const isAndroid = typeof navigator !== 'undefined' && /android/i.test(navigator.userAgent || '');
+  if (!isAndroid) {
+    try {
+      new Notification(title, options);
+      return { success: true, quote: body, method: 'native' };
+    } catch (err: unknown) {
+      console.warn('Native notification constructor failed:', err);
+    }
   }
+
+  // 3. If OS push is not available, deliver via in-app banner without throwing errors
+  return {
+    success: true,
+    quote: body,
+    method: 'in_app',
+  };
 }
 
 // Send a test notification

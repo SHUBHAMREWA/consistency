@@ -13,6 +13,7 @@ export default defineConfig({
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
+        injectRegister: 'script',
         includeAssets: ['favicon.ico', 'favicon-32x32.png', 'favicon.png', 'logo4.webp', 'icon-192.png', 'icon-512.png', 'notification-badge.png'],
         manifest: {
           name: 'HabitTrack — Monthly Habit Tracker',
