@@ -5,6 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Switch from '@mui/material/Switch';
+import Alert from '@mui/material/Alert';
 import {
   FaBell,
   FaBellSlash,
@@ -12,6 +13,8 @@ import {
   FaCloudSun,
   FaMoon,
   FaPaperPlane,
+  FaCircleCheck,
+  FaLock,
 } from 'react-icons/fa6';
 import {
   areRemindersEnabled,
@@ -19,6 +22,8 @@ import {
   disableReminders,
   sendTestNotification,
   isNotificationSupported,
+  getNotificationPermission,
+  type NotificationResult,
 } from '../../utils/notifications';
 
 interface NotificationSettingsDialogProps {
@@ -32,43 +37,71 @@ export default function NotificationSettingsDialog({
 }: NotificationSettingsDialogProps) {
   const [enabled, setEnabled] = useState(false);
   const [supported, setSupported] = useState(true);
-  const [testSent, setTestSent] = useState(false);
+  const [permissionState, setPermissionState] = useState<string>('default');
+  const [loading, setLoading] = useState(false);
+  const [testResult, setTestResult] = useState<NotificationResult | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     if (open) {
       setSupported(isNotificationSupported());
+      setPermissionState(getNotificationPermission());
       setEnabled(areRemindersEnabled());
-      setTestSent(false);
+      setTestResult(null);
+      setErrorMessage('');
     }
   }, [open]);
 
   const handleToggle = async () => {
+    setErrorMessage('');
     if (enabled) {
       disableReminders();
       setEnabled(false);
+      setPermissionState(getNotificationPermission());
     } else {
-      const granted = await requestReminderPermission();
-      if (granted) {
+      setLoading(true);
+      const res = await requestReminderPermission();
+      setLoading(false);
+      setPermissionState(res.permission);
+
+      if (res.granted) {
         setEnabled(true);
       } else {
-        alert(
-          'Please allow notifications in your browser or device settings to receive habit reminders.'
+        setErrorMessage(
+          res.error ||
+            'Please allow notifications in your browser address bar to receive daily reminders.'
         );
       }
     }
   };
 
   const handleTestClick = async () => {
-    if (!enabled) {
-      const granted = await requestReminderPermission();
-      if (!granted) return;
+    setErrorMessage('');
+    setTestResult(null);
+    setLoading(true);
+
+    // If not granted yet, ask for permission first
+    if (getNotificationPermission() !== 'granted') {
+      const res = await requestReminderPermission();
+      setPermissionState(res.permission);
+      if (!res.granted) {
+        setLoading(false);
+        setErrorMessage(
+          res.error ||
+            'Notifications were not allowed. Click the lock icon 🔒 next to the URL to enable them.'
+        );
+        return;
+      }
       setEnabled(true);
     }
 
-    const ok = await sendTestNotification();
-    if (ok) {
-      setTestSent(true);
-      setTimeout(() => setTestSent(false), 3000);
+    // Dispatch the test notification
+    const result = await sendTestNotification();
+    setLoading(false);
+    setTestResult(result);
+
+    if (!result.success && result.error) {
+      setErrorMessage(result.error);
     }
   };
 
@@ -103,7 +136,7 @@ export default function NotificationSettingsDialog({
               Funny Habit Reminders
             </h3>
             <p className="text-xs text-slate-500 dark:text-purple-300">
-              Motivational & funny alerts in your local country time
+              Humorous alerts in your local country time
             </p>
           </div>
         </div>
@@ -112,15 +145,61 @@ export default function NotificationSettingsDialog({
       <DialogContent dividers sx={{ borderColor: 'rgba(147, 51, 234, 0.15)' }}>
         {!supported ? (
           <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40 text-amber-800 dark:text-amber-200 text-xs">
-            Notifications are not supported by this browser. For the best experience, install the PWA or use Chrome, Edge, or Safari on iOS 16.4+.
+            Notifications are not supported in this browser window. For the best experience, open this app in Chrome, Edge, or install the PWA.
           </div>
         ) : (
           <div className="space-y-4">
+            {/* Permission Denied Warning */}
+            {permissionState === 'denied' && (
+              <Alert
+                severity="warning"
+                icon={<FaLock size={15} />}
+                sx={{ borderRadius: 2, fontSize: '0.8rem' }}
+              >
+                Notifications are currently <strong>Blocked</strong> by your browser.
+                To enable: Click the <strong>lock / site settings icon (🔒)</strong> next to the URL in your browser bar and select <strong>Allow Notifications</strong>.
+              </Alert>
+            )}
+
+            {/* Error Message if any */}
+            {errorMessage && (
+              <Alert severity="error" sx={{ borderRadius: 2, fontSize: '0.8rem' }}>
+                {errorMessage}
+              </Alert>
+            )}
+
+            {/* Test Notification Live Preview */}
+            {testResult && (
+              <div className="p-3.5 rounded-2xl bg-indigo-50/80 dark:bg-purple-950/60 border border-indigo-200 dark:border-purple-800/60 shadow-sm animate-in fade-in slide-in-from-top-2">
+                <div className="flex items-start gap-2.5">
+                  <div className="p-1.5 rounded-lg bg-indigo-600 text-white shrink-0 mt-0.5">
+                    <FaCircleCheck size={14} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="font-bold text-xs sm:text-sm text-slate-900 dark:text-purple-100">
+                        Notification Sent to Device!
+                      </span>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-indigo-100 dark:bg-purple-900/60 text-indigo-700 dark:text-purple-300 font-medium">
+                        Just Now
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-700 dark:text-purple-200 mt-1 font-medium bg-white/60 dark:bg-black/20 p-2 rounded-lg border border-indigo-100/80 dark:border-purple-800/40">
+                      "{testResult.quote}"
+                    </p>
+                    <p className="text-[11px] text-slate-500 dark:text-purple-300 mt-1.5 leading-tight">
+                      🔔 If you didn't see an OS banner popup, make sure Windows / Mac / Android <strong>Do Not Disturb / Focus Assist</strong> is turned off.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Toggle Card */}
             <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 dark:bg-[#201038] border border-slate-200/60 dark:border-purple-800/40">
               <div className="flex items-center gap-3">
                 <div
-                  className={`p-2.5 rounded-xl ${
+                  className={`p-2.5 rounded-xl transition-colors ${
                     enabled
                       ? 'bg-purple-600 text-white'
                       : 'bg-slate-200 dark:bg-purple-900/40 text-slate-500 dark:text-purple-400'
@@ -133,13 +212,14 @@ export default function NotificationSettingsDialog({
                     Daily Habit Alerts
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-purple-300">
-                    {enabled ? 'Active · Reminders scheduled' : 'Turn on for daily motivation'}
+                    {enabled ? 'Active · Reminding 3x daily' : 'Turn on to get funny daily motivation'}
                   </p>
                 </div>
               </div>
               <Switch
                 checked={enabled}
                 onChange={handleToggle}
+                disabled={loading}
                 color="secondary"
                 sx={{
                   '& .MuiSwitch-switchBase.Mui-checked': {
@@ -155,7 +235,7 @@ export default function NotificationSettingsDialog({
             {/* Schedule Times */}
             <div className="space-y-2.5">
               <h5 className="text-xs font-bold text-slate-700 dark:text-purple-200 uppercase tracking-wider">
-                Daily Schedule (Your Local Country Time)
+                Daily Schedule (Your Country's Local Time)
               </h5>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
@@ -199,10 +279,15 @@ export default function NotificationSettingsDialog({
               <button
                 type="button"
                 onClick={handleTestClick}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-purple-200 dark:border-purple-800/60 bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/40 dark:hover:bg-purple-900/50 text-purple-700 dark:text-purple-300 font-semibold text-xs sm:text-sm transition-all cursor-pointer"
+                disabled={loading}
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-purple-300 dark:border-purple-700 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold text-xs sm:text-sm shadow-md transition-all cursor-pointer active:scale-98 disabled:opacity-50"
               >
                 <FaPaperPlane size={12} />
-                <span>{testSent ? '✓ Sent! Check your screen' : 'Send a Funny Test Notification Now'}</span>
+                <span>
+                  {loading
+                    ? 'Requesting & Sending...'
+                    : 'Send a Funny Test Notification Now'}
+                </span>
               </button>
             </div>
           </div>
