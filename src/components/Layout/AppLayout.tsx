@@ -100,7 +100,7 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 dark:from-[#0f0518] dark:via-[#130722] dark:to-[#1a0b2e]">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 dark:from-[#0f0518] dark:via-[#130722] dark:to-[#1a0b2e]">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/80 dark:bg-[#0f0518]/80 backdrop-blur-md border-b border-slate-100 dark:border-purple-800/50 shadow-sm">
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
@@ -140,12 +140,36 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
       </header>
 
       {/* Main content */}
-      <main className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-2 sm:py-6 pb-20 md:pb-10">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-0 sm:px-6 lg:px-8 py-2 sm:py-6 pb-20 md:pb-10">
         <div className="flex flex-col gap-6">
           {habitPanel}
           {graphPanel}
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="mt-auto border-t border-slate-200/80 dark:border-purple-900/40 bg-white/70 dark:bg-[#120722]/80 backdrop-blur-sm py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div className="flex items-center gap-2">
+              <span className="text-base">🎯</span>
+              <span className="font-bold text-sm text-slate-800 dark:text-purple-200">HabitTrack</span>
+              <span className="text-xs text-slate-400 dark:text-purple-400">· 100% Offline & Private</span>
+            </div>
+
+            <nav className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-slate-600 dark:text-purple-300">
+              <a href="/about" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">About</a>
+              <a href="/how-to-use" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">How to Use</a>
+              <a href="/privacy-policy" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">Privacy Policy</a>
+              <a href="/terms" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">Terms & Conditions</a>
+            </nav>
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-slate-100 dark:border-purple-900/30 text-center text-xs text-slate-400 dark:text-purple-400">
+            <p>© {new Date().getFullYear()} HabitTrack. Free, open, client-side monthly habit tracker.</p>
+          </div>
+        </div>
+      </footer>
 
       {/* FAB (mobile) */}
       <Fab
