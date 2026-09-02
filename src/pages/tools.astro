@@ -1,0 +1,211 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+
+const tools = [
+  {
+    title: 'AFFiNE',
+    url: 'https://app.affine.pro/',
+    category: 'Workspace & Canvas',
+    badge: 'Notion + Excalidraw Alternative',
+    badgeColor: 'bg-purple-100 text-purple-700 dark:bg-purple-950/70 dark:text-purple-300 border-purple-200 dark:border-purple-800',
+    description:
+      'A next-generation all-in-one workspace uniting structured docs, infinite whiteboards, and visual canvas in one place. Better and more flexible than separate tools, with 100% offline-first privacy.',
+    icon: '🎨',
+    highlights: ['Docs & Canvas in one', '100% Offline & Private', 'Open-source'],
+  },
+  {
+    title: 'Roadmap.sh',
+    url: 'https://roadmap.sh/',
+    category: 'Career & Learning',
+    badge: 'Developer Learning Paths',
+    badgeColor: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
+    description:
+      'Community-curated interactive learning roadmaps and visual study guides. Explore step-by-step career paths for Frontend, Backend, DevOps, AI, Python, and whatever tech domain you want to master.',
+    icon: '🗺️',
+    highlights: ['Step-by-step career guides', 'Role & Skill roadmaps', 'Free study resources'],
+  },
+  {
+    title: 'Notion',
+    url: 'https://www.notion.so/',
+    category: 'Productivity & Notes',
+    badge: 'Connected Workspace',
+    badgeColor: 'bg-blue-100 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 border-blue-200 dark:border-blue-800',
+    description:
+      'The flexible all-in-one workspace for notes, tasks, databases, and project management. Perfect for organizing knowledge bases, personal habits, life planning, and team documentation.',
+    icon: '📝',
+    highlights: ['Database tables & views', 'Custom templates', 'Knowledge wikis'],
+  },
+  {
+    title: 'Excalidraw',
+    url: 'https://excalidraw.com/',
+    category: 'Visual Thinking',
+    badge: 'Hand-Drawn Whiteboard',
+    badgeColor: 'bg-amber-100 text-amber-700 dark:bg-amber-950/70 dark:text-amber-300 border-amber-200 dark:border-amber-800',
+    description:
+      'An infinite virtual whiteboard for sketching hand-drawn diagrams, system architectures, and wireframes. Fast, lightweight, and collaborative with end-to-end encryption.',
+    icon: '✏️',
+    highlights: ['Infinite canvas', 'End-to-end encrypted', 'Instant diagram export'],
+  },
+  {
+    title: 'Brave Browser',
+    url: 'https://brave.com/',
+    category: 'Privacy & Browsing',
+    badge: 'Ad-Free YouTube',
+    badgeColor: 'bg-orange-100 text-orange-700 dark:bg-orange-950/70 dark:text-orange-300 border-orange-200 dark:border-orange-800',
+    description:
+      'A blazing fast privacy-first browser that automatically blocks intrusive trackers and ads out of the box. Lets you watch YouTube videos with zero ads, background audio playback, and less battery drain.',
+    icon: '🦁',
+    highlights: ['Blocks YouTube ads', 'Built-in privacy shields', '3x faster browsing'],
+  },
+  {
+    title: 'Dark Reader Extension',
+    url: 'https://darkreader.org/',
+    category: 'Browser Extension',
+    badge: 'Eye Care & Night Mode',
+    badgeColor: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950/70 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800',
+    description:
+      'The premier open-source browser extension that generates high-contrast, beautiful dark themes for every single website on the internet on the fly. Protects your eyes during late-night study and work.',
+    icon: '🌙',
+    highlights: ['Universal dark mode', 'Fully customizable brightness', 'Open-source'],
+  },
+];
+---
+
+<PageLayout
+  title="Important Tools & Applications for Students & Learners"
+  description="Curated collection of essential websites, developer roadmaps, and productivity tools to supercharge students and lifelong learners."
+>
+  <div class="space-y-8">
+    <!-- Hero Header -->
+    <div class="bg-white dark:bg-[#1a0b2e] rounded-2xl border border-slate-200/80 dark:border-purple-800/50 p-6 sm:p-10 shadow-sm">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-purple-950/60 text-indigo-700 dark:text-purple-300 border border-indigo-100 dark:border-purple-800/60 mb-4">
+        <span>🚀</span>
+        <span>Curated Recommendations</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-purple-50 tracking-tight">
+        Important Tools & Applications for Students & Learners
+      </h1>
+      <p class="mt-3 text-base sm:text-lg text-slate-600 dark:text-purple-200/80 leading-relaxed max-w-3xl">
+        A hand-picked collection of high-impact applications, career roadmaps, and productivity extensions to accelerate learning, study habits, and focus for students and lifelong learners.
+      </p>
+    </div>
+
+    <!-- Tools Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {tools.map((tool) => (
+        <div class="flex flex-col justify-between bg-white dark:bg-[#1a0b2e] border border-slate-200/80 dark:border-purple-800/50 p-6 rounded-2xl shadow-sm hover:border-purple-300 dark:hover:border-purple-600 transition-all group">
+          <div>
+            <!-- Header Row -->
+            <div class="flex items-start justify-between gap-3 mb-3">
+              <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-slate-50 dark:bg-purple-950/60 border border-slate-100 dark:border-purple-800/50 flex items-center justify-center text-2xl shadow-xs shrink-0 group-hover:scale-105 transition-transform">
+                  {tool.icon}
+                </div>
+                <div>
+                  <a
+                    href={tool.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1 text-lg font-bold text-slate-900 dark:text-purple-50 hover:text-indigo-600 dark:hover:text-purple-300 transition-colors"
+                  >
+                    <span>{tool.title}</span>
+                    <span class="text-xs text-slate-400 dark:text-purple-400">↗</span>
+                  </a>
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="text-xs text-slate-400 dark:text-purple-400 font-medium">
+                      {tool.category}
+                    </span>
+                    <span class="text-slate-300 dark:text-purple-700">·</span>
+                    <a
+                      href={tool.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-xs text-indigo-600 dark:text-purple-300 hover:underline font-mono"
+                    >
+                      {tool.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Badge -->
+              <span class={`text-[11px] font-semibold px-2.5 py-1 rounded-full border shrink-0 ${tool.badgeColor}`}>
+                {tool.badge}
+              </span>
+            </div>
+
+            <!-- Description -->
+            <p class="text-sm text-slate-600 dark:text-purple-200/80 leading-relaxed mt-3">
+              {tool.description}
+            </p>
+
+            <!-- Highlights -->
+            <div class="flex flex-wrap gap-1.5 mt-4">
+              {tool.highlights.map((h) => (
+                <span class="text-[11px] px-2 py-0.5 rounded-md bg-slate-50 dark:bg-[#201038] text-slate-600 dark:text-purple-300 border border-slate-100 dark:border-purple-900/40 font-medium">
+                  ✓ {h}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <!-- Action Button -->
+          <div class="mt-6 pt-4 border-t border-slate-100 dark:border-purple-900/40">
+            <a
+              href={tool.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl font-semibold text-xs sm:text-sm text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-sm hover:shadow transition-all"
+            >
+              <span>Visit {tool.title}</span>
+              <span class="text-xs">↗</span>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Suggestion Box -->
+    <div class="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-950/40 dark:to-[#1a0b2e] rounded-2xl border border-purple-200/80 dark:border-purple-800/50 p-6 sm:p-8 text-center shadow-sm">
+      <div class="text-3xl mb-2">💡</div>
+      <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-purple-100">
+        Want to Recommend Another Great Tool?
+      </h3>
+      <p class="text-sm text-slate-600 dark:text-purple-300 mt-1 max-w-lg mx-auto leading-relaxed">
+        Have a productivity website, extension, or open-source tool that helps people stay consistent? Send us your recommendation directly!
+      </p>
+
+      <!-- WhatsApp & Phone Contact Section -->
+      <div class="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a
+          href="https://wa.me/917898522932?text=Hi%2C%20I%20want%20to%20give%20some%20recommendations%20for%20the%20Habit%20Tracker%20app%3A%20"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2.5 px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm text-white bg-[#25D366] hover:bg-[#20ba59] shadow-md hover:shadow-lg transition-all cursor-pointer group active:scale-98"
+        >
+          <svg class="w-4 h-4 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+          </svg>
+          <span>WhatsApp Recommendation</span>
+        </a>
+
+        <a
+          href="tel:+917898522932"
+          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-medium text-xs sm:text-sm text-slate-700 dark:text-purple-200 bg-white/80 dark:bg-purple-900/40 border border-slate-200 dark:border-purple-800 hover:border-purple-400 dark:hover:border-purple-600 transition-all"
+        >
+          <span>📞 Call / SMS:</span>
+          <span class="font-semibold text-slate-900 dark:text-white font-mono">+91 7898522932</span>
+        </a>
+      </div>
+
+      <div class="mt-5">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-purple-700 dark:text-purple-300 hover:underline"
+        >
+          <span>← Back to Habit Tracker</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</PageLayout>

@@ -104,6 +104,12 @@ const currentPath = Astro.url.pathname;
           <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <nav class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-slate-600 dark:text-purple-300">
               <a href="/" class="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">Tracker</a>
+              <a href="/tools" class={currentPath === '/tools' || currentPath === '/tools/' ? 'text-indigo-600 dark:text-purple-200 font-bold inline-flex items-center gap-1.5' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors inline-flex items-center gap-1.5'}>
+                <span>Important Tools & Apps for Students & Learners</span>
+                <span class="text-[11px] px-1.5 py-0.5 rounded-md bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-semibold">
+                  (Click to see)
+                </span>
+              </a>
               <a href="/about" class={currentPath === '/about' || currentPath === '/about/' ? 'text-indigo-600 dark:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>About</a>
               <a href="/how-to-use" class={currentPath === '/how-to-use' || currentPath === '/how-to-use/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>How to Use</a>
               <a href="/privacy-policy" class={currentPath === '/privacy-policy' || currentPath === '/privacy-policy/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>Privacy Policy</a>

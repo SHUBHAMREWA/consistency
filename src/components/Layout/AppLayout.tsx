@@ -249,6 +249,12 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
 
             <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
               <nav className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-slate-600 dark:text-purple-300">
+                <a href="/tools" className="inline-flex items-center gap-1.5 hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">
+                  <span>Important Tools & Apps for Students & Learners</span>
+                  <span className="text-[11px] px-1.5 py-0.5 rounded-md bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-semibold">
+                    (Click to see)
+                  </span>
+                </a>
                 <a href="/about" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">About</a>
                 <a href="/how-to-use" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">How to Use</a>
                 <a href="/privacy-policy" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">Privacy Policy</a>
