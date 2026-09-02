@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { FaPlus, FaMoon, FaSun, FaClockRotateLeft, FaBell } from 'react-icons/fa6';
+import { FaPlus, FaMoon, FaSun, FaClockRotateLeft, FaBell, FaShareNodes } from 'react-icons/fa6';
 
 import { MonthProvider, useMonth } from '../../context/MonthContext';
 import { useHabit } from '../../hooks/useHabit';
@@ -21,6 +21,7 @@ import GraphGrid from '../Graph/GraphGrid';
 import DateTimeBanner from './DateTimeBanner';
 import InstallPwaPrompt, { FooterInstallButton } from '../PWA/InstallPwaPrompt';
 import NotificationSettingsDialog from '../Notifications/NotificationSettingsDialog';
+import ShareDialog, { FooterShareButtons } from '../Share/ShareDialog';
 import { checkAndSendScheduledReminders } from '../../utils/notifications';
 
 import type { Habit } from '../../types/habit';
@@ -30,6 +31,7 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
   const [addOpen, setAddOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
   const [editingHabit, setEditingHabit] = useState<Habit | null>(null);
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
     open: false,
@@ -162,6 +164,17 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
               </IconButton>
             </Tooltip>
 
+            {/* Share button */}
+            <Tooltip title="Share with Friends">
+              <IconButton
+                onClick={() => setShareOpen(true)}
+                sx={{ color: 'text.primary' }}
+                aria-label="Share with friends"
+              >
+                <FaShareNodes size={16} className="text-indigo-600 dark:text-purple-300" />
+              </IconButton>
+            </Tooltip>
+
             <IconButton onClick={toggleTheme} sx={{ color: 'text.primary' }} aria-label="Toggle dark mode">
               {themeMode === 'dark' ? <FaSun size={18} color="#c084fc" /> : <FaMoon size={18} />}
             </IconButton>
@@ -242,7 +255,10 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
                 <a href="/terms" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">Terms & Conditions</a>
               </nav>
 
-              <FooterInstallButton />
+              <div className="flex items-center gap-3">
+                <FooterShareButtons />
+                <FooterInstallButton />
+              </div>
             </div>
           </div>
 
@@ -297,6 +313,12 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
       <NotificationSettingsDialog
         open={notifOpen}
         onClose={() => setNotifOpen(false)}
+      />
+
+      {/* Share with Friends Dialog */}
+      <ShareDialog
+        open={shareOpen}
+        onClose={() => setShareOpen(false)}
       />
 
       {/* Snackbar feedback */}

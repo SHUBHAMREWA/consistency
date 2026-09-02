@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { FooterInstallButton } from '../components/PWA/InstallPwaPrompt';
+import { FooterShareButtons } from '../components/Share/ShareDialog';
 
 interface Props {
   title: string;
@@ -109,7 +110,10 @@ const currentPath = Astro.url.pathname;
               <a href="/terms" class={currentPath === '/terms' || currentPath === '/terms/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>Terms & Conditions</a>
             </nav>
 
-            <FooterInstallButton client:load />
+            <div class="flex items-center gap-3">
+              <FooterShareButtons client:load />
+              <FooterInstallButton client:load />
+            </div>
           </div>
         </div>
 
