@@ -132,18 +132,19 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
       year={year}
       month={month}
       habitCount={habits.length}
+      habits={habits}
     />
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 dark:from-[#0f0518] dark:via-[#130722] dark:to-[#1a0b2e]">
+    <div className="min-h-screen flex flex-col w-full max-w-full overflow-x-hidden bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 dark:from-[#0f0518] dark:via-[#130722] dark:to-[#1a0b2e]">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/80 dark:bg-[#0f0518]/80 backdrop-blur-md border-b border-slate-100 dark:border-purple-800/50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-2 sm:gap-4">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-1 sm:gap-4">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0 hover:opacity-90 transition-opacity">
-            <img src="/logo4.webp" alt="HabitTrack Logo" className="h-9 sm:h-11 md:h-12 w-auto object-contain drop-shadow-sm" />
-            <span className="font-bold text-slate-800 dark:text-purple-100 text-base sm:text-lg md:text-xl tracking-tight hidden xs:block">
+          <a href="/" className="flex items-center gap-1.5 sm:gap-3 shrink-0 hover:opacity-90 transition-opacity">
+            <img src="/logo4.webp" alt="HabitTrack Logo" className="h-8 sm:h-11 md:h-12 w-auto object-contain drop-shadow-sm" />
+            <span className="font-bold text-slate-800 dark:text-purple-100 text-base sm:text-lg md:text-xl tracking-tight hidden sm:block">
               HabitTrack
             </span>
           </a>
@@ -152,15 +153,16 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
           <MonthSelector year={year} month={month} onChange={setYearMonth} />
 
           {/* Controls */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="flex items-center gap-0.5 sm:gap-1.5 shrink-0">
             {/* Habit Reminders button */}
             <Tooltip title="Funny Habit Reminders">
               <IconButton
                 onClick={() => setNotifOpen(true)}
-                sx={{ color: 'text.primary' }}
+                size="small"
+                sx={{ color: 'text.primary', p: { xs: 0.75, sm: 1 } }}
                 aria-label="Daily habit reminders"
               >
-                <FaBell size={17} className="text-purple-600 dark:text-purple-300" />
+                <FaBell size={15} className="text-purple-600 dark:text-purple-300" />
               </IconButton>
             </Tooltip>
 
@@ -168,15 +170,21 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
             <Tooltip title="Share with Friends">
               <IconButton
                 onClick={() => setShareOpen(true)}
-                sx={{ color: 'text.primary' }}
+                size="small"
+                sx={{ color: 'text.primary', p: { xs: 0.75, sm: 1 } }}
                 aria-label="Share with friends"
               >
-                <FaShareNodes size={16} className="text-indigo-600 dark:text-purple-300" />
+                <FaShareNodes size={15} className="text-indigo-600 dark:text-purple-300" />
               </IconButton>
             </Tooltip>
 
-            <IconButton onClick={toggleTheme} sx={{ color: 'text.primary' }} aria-label="Toggle dark mode">
-              {themeMode === 'dark' ? <FaSun size={18} color="#c084fc" /> : <FaMoon size={18} />}
+            <IconButton
+              onClick={toggleTheme}
+              size="small"
+              sx={{ color: 'text.primary', p: { xs: 0.75, sm: 1 } }}
+              aria-label="Toggle dark mode"
+            >
+              {themeMode === 'dark' ? <FaSun size={16} color="#c084fc" /> : <FaMoon size={16} />}
             </IconButton>
 
             {/* Import button (mobile icon) */}
@@ -184,11 +192,11 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
               <Tooltip title="Import from previous month">
                 <IconButton
                   onClick={() => setImportOpen(true)}
-                  sx={{ color: 'text.primary' }}
-                  aria-label="Import habits from previous month"
                   size="small"
+                  sx={{ color: 'text.primary', p: { xs: 0.75, sm: 1 } }}
+                  aria-label="Import habits from previous month"
                 >
-                  <FaClockRotateLeft size={16} />
+                  <FaClockRotateLeft size={15} />
                 </IconButton>
               </Tooltip>
             </div>
@@ -238,7 +246,7 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
       </main>
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-slate-200/80 dark:border-purple-900/40 bg-white/70 dark:bg-[#120722]/80 backdrop-blur-sm py-8">
+      <footer className="mt-auto border-t border-slate-200/80 dark:border-purple-900/40 bg-white/70 dark:bg-[#120722]/80 backdrop-blur-sm py-8 w-full max-w-full overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
             <div className="flex items-center gap-2.5 sm:gap-3">
@@ -247,11 +255,11 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
               <span className="text-xs text-slate-400 dark:text-purple-400">· 100% Offline & Private</span>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-              <nav className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-slate-600 dark:text-purple-300">
-                <a href="/tools" className="inline-flex items-center gap-1.5 hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">
+            <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 max-w-full">
+              <nav className="flex flex-wrap justify-center items-center gap-x-4 sm:gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-slate-600 dark:text-purple-300 max-w-full">
+                <a href="/tools" className="inline-flex flex-wrap items-center justify-center gap-1.5 hover:text-indigo-600 dark:hover:text-purple-200 transition-colors text-center">
                   <span>Important Tools & Apps for Students & Learners</span>
-                  <span className="text-[11px] px-1.5 py-0.5 rounded-md bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-semibold">
+                  <span className="text-[10px] sm:text-[11px] px-1.5 py-0.5 rounded-md bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-semibold shrink-0">
                     (Click to see)
                   </span>
                 </a>
@@ -261,7 +269,7 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
                 <a href="/terms" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">Terms & Conditions</a>
               </nav>
 
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 max-w-full">
                 <FooterShareButtons />
                 <FooterInstallButton />
               </div>

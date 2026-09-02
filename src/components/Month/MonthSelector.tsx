@@ -21,17 +21,18 @@ export default function MonthSelector({ year, month, onChange }: MonthSelectorPr
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-0.5 sm:gap-1.5 shrink min-w-0">
       <IconButton
         onClick={handlePrev}
         size="small"
         aria-label="Previous month"
         sx={{
           color: 'inherit',
+          p: { xs: 0.5, sm: 1 },
           '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' },
         }}
       >
-        <FaChevronLeft size={14} />
+        <FaChevronLeft size={12} />
       </IconButton>
 
       <Typography
@@ -40,10 +41,13 @@ export default function MonthSelector({ year, month, onChange }: MonthSelectorPr
         className="text-slate-800 dark:text-purple-100"
         sx={{
           fontWeight: 700,
-          fontSize: { xs: '1rem', sm: '1.15rem' },
-          minWidth: '160px',
+          fontSize: { xs: '0.85rem', sm: '1.1rem' },
+          minWidth: { xs: '105px', sm: '150px' },
           textAlign: 'center',
           letterSpacing: '-0.02em',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
         }}
       >
         {formatMonthLabel(year, month)}
@@ -55,10 +59,11 @@ export default function MonthSelector({ year, month, onChange }: MonthSelectorPr
         aria-label="Next month"
         sx={{
           color: 'inherit',
+          p: { xs: 0.5, sm: 1 },
           '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' },
         }}
       >
-        <FaChevronRight size={14} />
+        <FaChevronRight size={12} />
       </IconButton>
     </div>
   );

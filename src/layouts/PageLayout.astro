@@ -92,7 +92,7 @@ const currentPath = Astro.url.pathname;
     </main>
 
     <!-- Footer -->
-    <footer class="mt-auto border-t border-slate-200/80 dark:border-purple-900/40 bg-white/70 dark:bg-[#120722]/80 backdrop-blur-sm py-8">
+    <footer class="mt-auto border-t border-slate-200/80 dark:border-purple-900/40 bg-white/70 dark:bg-[#120722]/80 backdrop-blur-sm py-8 w-full max-w-full overflow-hidden">
       <div class="max-w-5xl mx-auto px-4 sm:px-6">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div class="flex items-center gap-2.5 sm:gap-3">
@@ -101,22 +101,22 @@ const currentPath = Astro.url.pathname;
             <span class="text-xs text-slate-400 dark:text-purple-400">· 100% Offline & Private</span>
           </div>
 
-          <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-            <nav class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-slate-600 dark:text-purple-300">
+          <div class="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 max-w-full">
+            <nav class="flex flex-wrap justify-center items-center gap-x-4 sm:gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-slate-600 dark:text-purple-300 max-w-full">
               <a href="/" class="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">Tracker</a>
-              <a href="/tools" class={currentPath === '/tools' || currentPath === '/tools/' ? 'text-indigo-600 dark:text-purple-200 font-bold inline-flex items-center gap-1.5' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors inline-flex items-center gap-1.5'}>
+              <a href="/tools" class={currentPath === '/tools' || currentPath === '/tools/' ? 'text-indigo-600 dark:text-purple-200 font-bold inline-flex flex-wrap items-center justify-center gap-1.5 text-center' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors inline-flex flex-wrap items-center justify-center gap-1.5 text-center'}>
                 <span>Important Tools & Apps for Students & Learners</span>
-                <span class="text-[11px] px-1.5 py-0.5 rounded-md bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-semibold">
+                <span class="text-[10px] sm:text-[11px] px-1.5 py-0.5 rounded-md bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-semibold shrink-0">
                   (Click to see)
                 </span>
               </a>
               <a href="/about" class={currentPath === '/about' || currentPath === '/about/' ? 'text-indigo-600 dark:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>About</a>
-              <a href="/how-to-use" class={currentPath === '/how-to-use' || currentPath === '/how-to-use/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>How to Use</a>
+              <a href="/how-to-use" class={currentPath === '/how-to-use' || currentPath === '/how-to-use/' ? 'text-indigo-600 dark:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>How to Use</a>
               <a href="/privacy-policy" class={currentPath === '/privacy-policy' || currentPath === '/privacy-policy/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>Privacy Policy</a>
               <a href="/terms" class={currentPath === '/terms' || currentPath === '/terms/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>Terms & Conditions</a>
             </nav>
 
-            <div class="flex items-center gap-3">
+            <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 max-w-full">
               <FooterShareButtons client:load />
               <FooterInstallButton client:load />
             </div>

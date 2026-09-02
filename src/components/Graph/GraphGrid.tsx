@@ -1,6 +1,8 @@
-import { Suspense, lazy } from 'react';
-import type { DailyScore } from '../../types/habit';
+import { Suspense, lazy, useState } from 'react';
+import { FaDownload } from 'react-icons/fa6';
+import type { DailyScore, Habit } from '../../types/habit';
 import { formatMonthLabel, todayKey, formatDateKey } from '../../utils/date';
+import MonthlyReportModal from '../Export/MonthlyReportModal';
 
 const ScoreGraph = lazy(() => import('./ScoreGraph'));
 
@@ -9,9 +11,11 @@ interface GraphGridProps {
   year: number;
   month: number;
   habitCount: number;
+  habits?: Habit[];
 }
 
-export default function GraphGrid({ dailyScores, year, month, habitCount }: GraphGridProps) {
+export default function GraphGrid({ dailyScores, year, month, habitCount, habits = [] }: GraphGridProps) {
+  const [exportOpen, setExportOpen] = useState(false);
   const today = todayKey();
   const validScores = dailyScores.filter(d => formatDateKey(year, month, d.day) <= today);
 
@@ -22,14 +26,28 @@ export default function GraphGrid({ dailyScores, year, month, habitCount }: Grap
   return (
     <div className="bg-white dark:bg-[#1a0b2e] sm:rounded-2xl border-y sm:border border-slate-100 dark:border-purple-800/50 sm:shadow-sm p-3 sm:p-5">
       {/* Header */}
-      <div className="flex items-start justify-between mb-5">
+      <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 mb-5">
         <div>
           <h2 className="text-base font-bold text-slate-800 dark:text-purple-100">Daily Score</h2>
           <p className="text-xs text-slate-400 dark:text-purple-400 mt-0.5">{formatMonthLabel(year, month)}</p>
         </div>
-        <div className="text-right">
-          <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{rate}%</p>
-          <p className="text-xs text-slate-400 dark:text-purple-400">completion rate</p>
+
+        <div className="flex items-center gap-2.5 sm:gap-3.5">
+          {/* Prominent Export & Share Button */}
+          <button
+            type="button"
+            onClick={() => setExportOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-semibold shadow-md transition-all cursor-pointer active:scale-95 shrink-0"
+            title="Download and Share Monthly Progress"
+          >
+            <FaDownload size={11} />
+            <span>Export & Share</span>
+          </button>
+
+          <div className="text-right shrink-0">
+            <p className="text-xl sm:text-2xl font-bold text-indigo-600 dark:text-indigo-400 leading-none">{rate}%</p>
+            <p className="text-[10px] sm:text-xs text-slate-400 dark:text-purple-400 mt-0.5">completion rate</p>
+          </div>
         </div>
       </div>
 
@@ -67,6 +85,16 @@ export default function GraphGrid({ dailyScores, year, month, habitCount }: Grap
         <div className="w-4 h-0.5 bg-indigo-500/40 dark:bg-indigo-400/40 rounded border-dashed ml-2" />
         <span className="text-xs text-slate-400 dark:text-purple-400">Today</span>
       </div>
+
+      {/* Monthly Report Export & Share Modal */}
+      <MonthlyReportModal
+        open={exportOpen}
+        onClose={() => setExportOpen(false)}
+        year={year}
+        month={month}
+        habits={habits}
+        dailyScores={dailyScores}
+      />
     </div>
   );
 }
