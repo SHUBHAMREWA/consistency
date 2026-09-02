@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { FaPlus, FaMoon, FaSun, FaClockRotateLeft } from 'react-icons/fa6';
+import { FaPlus, FaMoon, FaSun, FaClockRotateLeft, FaBell } from 'react-icons/fa6';
 
 import { MonthProvider, useMonth } from '../../context/MonthContext';
 import { useHabit } from '../../hooks/useHabit';
@@ -18,6 +18,10 @@ import AddHabitDialog from '../Habit/AddHabitDialog';
 import EditHabitDialog from '../Habit/EditHabitDialog';
 import ImportHabitsDialog from '../Habit/ImportHabitsDialog';
 import GraphGrid from '../Graph/GraphGrid';
+import DateTimeBanner from './DateTimeBanner';
+import InstallPwaPrompt, { FooterInstallButton } from '../PWA/InstallPwaPrompt';
+import NotificationSettingsDialog from '../Notifications/NotificationSettingsDialog';
+import { checkAndSendScheduledReminders } from '../../utils/notifications';
 
 import type { Habit } from '../../types/habit';
 
@@ -25,12 +29,22 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
   const { year, month, setYearMonth } = useMonth();
   const [addOpen, setAddOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
   const [editingHabit, setEditingHabit] = useState<Habit | null>(null);
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
     open: false,
     message: '',
     severity: 'success',
   });
+
+  useEffect(() => {
+    // Check reminders on mount and periodically every 60s
+    checkAndSendScheduledReminders();
+    const timer = setInterval(() => {
+      checkAndSendScheduledReminders();
+    }, 60000);
+    return () => clearInterval(timer);
+  }, []);
 
   const { habits, loading: habitsLoading, addHabit, addHabits, renameHabit, deleteHabit, reorderHabits } =
     useHabit(year, month);
@@ -88,7 +102,7 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
   );
 
   const habitPanel = (
-    <div className="bg-white dark:bg-[#1a0b2e] sm:rounded-2xl border-y sm:border border-slate-100 dark:border-purple-800/50 sm:shadow-sm p-1 sm:p-5 min-h-[300px]">
+    <div className="bg-white dark:bg-[#1a0b2e] sm:rounded-2xl border-y sm:border border-slate-100 dark:border-purple-800/50 sm:shadow-sm overflow-hidden">
       {habitsLoading ? (
         <div className="flex items-center justify-center py-16">
           <div className="animate-spin rounded-full h-8 w-8 border-2 border-slate-200 border-t-indigo-500" />
@@ -136,7 +150,18 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
           <MonthSelector year={year} month={month} onChange={setYearMonth} />
 
           {/* Controls */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            {/* Habit Reminders button */}
+            <Tooltip title="Funny Habit Reminders">
+              <IconButton
+                onClick={() => setNotifOpen(true)}
+                sx={{ color: 'text.primary' }}
+                aria-label="Daily habit reminders"
+              >
+                <FaBell size={17} className="text-purple-600 dark:text-purple-300" />
+              </IconButton>
+            </Tooltip>
+
             <IconButton onClick={toggleTheme} sx={{ color: 'text.primary' }} aria-label="Toggle dark mode">
               {themeMode === 'dark' ? <FaSun size={18} color="#c084fc" /> : <FaMoon size={18} />}
             </IconButton>
@@ -192,8 +217,9 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
 
       {/* Main content */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-0 sm:px-6 lg:px-8 py-2 sm:py-6 pb-20 md:pb-10">
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4 sm:gap-6">
           {habitPanel}
+          <DateTimeBanner year={year} month={month} />
           {graphPanel}
         </div>
       </main>
@@ -208,12 +234,16 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
               <span className="text-xs text-slate-400 dark:text-purple-400">· 100% Offline & Private</span>
             </div>
 
-            <nav className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-slate-600 dark:text-purple-300">
-              <a href="/about" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">About</a>
-              <a href="/how-to-use" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">How to Use</a>
-              <a href="/privacy-policy" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">Privacy Policy</a>
-              <a href="/terms" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">Terms & Conditions</a>
-            </nav>
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <nav className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-slate-600 dark:text-purple-300">
+                <a href="/about" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">About</a>
+                <a href="/how-to-use" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">How to Use</a>
+                <a href="/privacy-policy" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">Privacy Policy</a>
+                <a href="/terms" className="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">Terms & Conditions</a>
+              </nav>
+
+              <FooterInstallButton />
+            </div>
           </div>
 
           <div className="mt-6 pt-6 border-t border-slate-100 dark:border-purple-900/30 text-center text-xs text-slate-400 dark:text-purple-400">
@@ -258,6 +288,15 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
         month={month}
         currentHabits={habits}
         onImport={handleImportHabits}
+      />
+
+      {/* PWA Download / Install Popup */}
+      <InstallPwaPrompt />
+
+      {/* Habit Reminders Settings Dialog */}
+      <NotificationSettingsDialog
+        open={notifOpen}
+        onClose={() => setNotifOpen(false)}
       />
 
       {/* Snackbar feedback */}

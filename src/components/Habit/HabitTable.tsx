@@ -104,7 +104,7 @@ export default function HabitTable({
   }
 
   return (
-    <div className="overflow-x-auto w-full rounded-none sm:rounded-xl border-y sm:border border-slate-100 dark:border-purple-800/50 shadow-sm bg-white dark:bg-[#1a0b2e]">
+    <div className="overflow-x-auto w-full">
       <table className="border-collapse min-w-full text-sm">
         <thead>
           <tr className="bg-slate-50 dark:bg-[#201038] border-b border-slate-100 dark:border-purple-800/50">

@@ -224,15 +224,24 @@ export default function ImportHabitsDialog({
                 return (
                   <div
                     key={habit.id ?? habit.title}
+                    role="checkbox"
+                    aria-checked={isSelected}
+                    tabIndex={isAlreadyAdded ? -1 : 0}
                     onClick={() => {
                       if (!isAlreadyAdded && !importing) {
                         handleToggleHabit(habit.title);
                       }
                     }}
-                    className={`flex items-center justify-between px-4 py-3 transition-colors ${
+                    onKeyDown={(e) => {
+                      if (!isAlreadyAdded && !importing && (e.key === ' ' || e.key === 'Enter')) {
+                        e.preventDefault();
+                        handleToggleHabit(habit.title);
+                      }
+                    }}
+                    className={`flex items-center justify-between px-4 py-3 transition-colors select-none ${
                       isAlreadyAdded
                         ? 'bg-slate-50/50 dark:bg-purple-950/20 opacity-60 cursor-not-allowed'
-                        : 'hover:bg-slate-50 dark:hover:bg-[#201038] cursor-pointer'
+                        : 'hover:bg-slate-50 dark:hover:bg-[#201038] cursor-pointer active:bg-slate-100 dark:active:bg-purple-950/40'
                     }`}
                   >
                     <div className="flex items-center gap-3 min-w-0 pr-2">
@@ -240,11 +249,13 @@ export default function ImportHabitsDialog({
                         size="small"
                         checked={isSelected}
                         disabled={isAlreadyAdded || importing}
-                        onChange={() => handleToggleHabit(habit.title)}
+                        tabIndex={-1}
                         sx={{
                           p: 0.5,
+                          pointerEvents: 'none',
                           '&.Mui-checked': {
-                            color: '#6366f1',
+                            color: (theme) =>
+                              theme.palette.mode === 'dark' ? '#c084fc' : '#4f46e5',
                           },
                         }}
                       />

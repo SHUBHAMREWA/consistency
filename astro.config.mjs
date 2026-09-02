@@ -13,7 +13,7 @@ export default defineConfig({
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['icon-192.png', 'icon-512.png', 'favicon.ico'],
+        includeAssets: ['favicon.ico', 'favicon-32x32.png', 'favicon.png', 'logo4.webp', 'icon-192.png', 'icon-512.png'],
         manifest: {
           name: 'HabitTrack — Monthly Habit Tracker',
           short_name: 'HabitTrack',
@@ -24,6 +24,12 @@ export default defineConfig({
           orientation: 'portrait-primary',
           start_url: '/',
           icons: [
+            {
+              src: '/logo4.webp',
+              sizes: '192x192 512x512',
+              type: 'image/webp',
+              purpose: 'any maskable',
+            },
             {
               src: '/icon-192.png',
               sizes: '192x192',

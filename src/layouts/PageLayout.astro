@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { FooterInstallButton } from '../components/PWA/InstallPwaPrompt';
 
 interface Props {
   title: string;
@@ -99,13 +100,17 @@ const currentPath = Astro.url.pathname;
             <span class="text-xs text-slate-400 dark:text-purple-400">· 100% Offline & Private</span>
           </div>
 
-          <nav class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-slate-600 dark:text-purple-300">
-            <a href="/" class="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">Tracker</a>
-            <a href="/about" class={currentPath === '/about' || currentPath === '/about/' ? 'text-indigo-600 dark:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>About</a>
-            <a href="/how-to-use" class={currentPath === '/how-to-use' || currentPath === '/how-to-use/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>How to Use</a>
-            <a href="/privacy-policy" class={currentPath === '/privacy-policy' || currentPath === '/privacy-policy/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>Privacy Policy</a>
-            <a href="/terms" class={currentPath === '/terms' || currentPath === '/terms/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>Terms & Conditions</a>
-          </nav>
+          <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <nav class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-slate-600 dark:text-purple-300">
+              <a href="/" class="hover:text-indigo-600 dark:hover:text-purple-200 transition-colors">Tracker</a>
+              <a href="/about" class={currentPath === '/about' || currentPath === '/about/' ? 'text-indigo-600 dark:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>About</a>
+              <a href="/how-to-use" class={currentPath === '/how-to-use' || currentPath === '/how-to-use/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>How to Use</a>
+              <a href="/privacy-policy" class={currentPath === '/privacy-policy' || currentPath === '/privacy-policy/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>Privacy Policy</a>
+              <a href="/terms" class={currentPath === '/terms' || currentPath === '/terms/' ? 'text-indigo-600 dark:hover:text-purple-200 font-bold' : 'hover:text-indigo-600 dark:hover:text-purple-200 transition-colors'}>Terms & Conditions</a>
+            </nav>
+
+            <FooterInstallButton client:load />
+          </div>
         </div>
 
         <div class="mt-6 pt-6 border-t border-slate-100 dark:border-purple-900/30 text-center text-xs text-slate-400 dark:text-purple-400">
