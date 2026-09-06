@@ -50,6 +50,12 @@ const currentPath = Astro.url.pathname;
       } else {
         document.documentElement.classList.remove('dark');
       }
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {});
+        });
+      }
     </script>
   </head>
   <body class="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 dark:from-[#0f0518] dark:via-[#130722] dark:to-[#1a0b2e] text-slate-800 dark:text-purple-100 transition-colors">

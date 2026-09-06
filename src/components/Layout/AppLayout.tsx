@@ -19,6 +19,7 @@ import EditHabitDialog from '../Habit/EditHabitDialog';
 import ImportHabitsDialog from '../Habit/ImportHabitsDialog';
 import GraphGrid from '../Graph/GraphGrid';
 import DateTimeBanner from './DateTimeBanner';
+import VideoGuideCard from '../Guide/VideoGuideCard';
 import InstallPwaPrompt, { FooterInstallButton } from '../PWA/InstallPwaPrompt';
 import NotificationSettingsDialog from '../Notifications/NotificationSettingsDialog';
 import ShareDialog, { FooterShareButtons } from '../Share/ShareDialog';
@@ -242,6 +243,7 @@ function AppContent({ themeMode, toggleTheme }: { themeMode: 'light' | 'dark'; t
           {habitPanel}
           <DateTimeBanner year={year} month={month} />
           {graphPanel}
+          <VideoGuideCard />
         </div>
       </main>
 

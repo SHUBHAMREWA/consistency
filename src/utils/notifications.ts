@@ -152,31 +152,18 @@ export async function getOrRegisterServiceWorker(): Promise<ServiceWorkerRegistr
   }
 
   try {
-    // 1. If serviceWorker is already ready, use it immediately
+    let reg = await navigator.serviceWorker.getRegistration();
+    if (!reg) {
+      reg = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+    }
+
+    // Wait until ready
     const readyReg = await Promise.race([
       navigator.serviceWorker.ready,
-      new Promise<null>((resolve) => setTimeout(() => resolve(null), 1500)),
-    ]);
-    if (readyReg) {
-      return readyReg;
-    }
-
-    // 2. Check getRegistration
-    const existing = await navigator.serviceWorker.getRegistration();
-    if (existing) {
-      return existing;
-    }
-
-    // 3. Register explicitly if not registered
-    const reg = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
-
-    // Wait for ready
-    const activated = await Promise.race([
-      navigator.serviceWorker.ready,
-      new Promise<ServiceWorkerRegistration>((resolve) => setTimeout(() => resolve(reg), 2000)),
+      new Promise<ServiceWorkerRegistration>((resolve) => setTimeout(() => resolve(reg!), 2500)),
     ]);
 
-    return activated || reg;
+    return readyReg || reg;
   } catch (err) {
     console.warn('Service worker registration attempt:', err);
     try {
@@ -212,12 +199,13 @@ export async function sendHabitNotification(title: string, body: string): Promis
     };
   }
 
-  const options: NotificationOptions & { renotify?: boolean } = {
+  const options: NotificationOptions & { renotify?: boolean; vibrate?: number[] } = {
     body,
     icon: '/logo4.webp',
     badge: '/notification-badge.png',
     tag: 'habit-track-reminder',
     renotify: true,
+    vibrate: [200, 100, 200],
   };
 
   // Set PWA app icon badge indicator on home screen
@@ -249,11 +237,12 @@ export async function sendHabitNotification(title: string, body: string): Promis
     }
   }
 
-  // 3. If OS push is not available, deliver via in-app banner without throwing errors
+  // 3. If OS push is not available, report failure with explanation
   return {
-    success: true,
+    success: false,
     quote: body,
     method: 'in_app',
+    error: 'Service Worker is still initializing. Please wait a moment and try again.',
   };
 }
 

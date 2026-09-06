@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import VideoGuideCard from '../components/Guide/VideoGuideCard';
 ---
 
 <PageLayout
@@ -20,6 +21,9 @@ import PageLayout from '../layouts/PageLayout.astro';
         A quick 2-minute visual guide to getting the most out of your monthly habit board.
       </p>
     </div>
+
+    <!-- Video Tutorial Card -->
+    <VideoGuideCard client:load />
 
     <!-- Step 1: Add Habits -->
     <div class="bg-white dark:bg-[#1a0b2e] rounded-2xl border border-slate-200/80 dark:border-purple-800/50 p-6 sm:p-8 shadow-sm">
